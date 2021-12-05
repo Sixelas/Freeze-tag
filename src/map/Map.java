@@ -18,6 +18,7 @@ public class Map implements BackgroundPainter{
 
     public Map(int type){
         tp = new Topology();
+        tp.setCommunicationRange(0);
         JViewer jv = new JViewer(tp);
         jv.getJTopology().setDefaultBackgroundPainter(this);
         tp.setNodeModel("robot", Robot.class);
@@ -26,17 +27,18 @@ public class Map implements BackgroundPainter{
             case 1 : //On place soi-même les robots
                 break;
             case 2 : //Génère des robots aléatoirement
-                generateRobots();
+                generateRobots(15);
                 break;
         }
+        tp.start();
     }
 
-    private void generateRobots() {
+    private void generateRobots(int nbRobots) {
         int width = tp.getWidth();
         int height = tp.getHeight();
-        for(int i=0; i<10; i++){
+        for(int i=0; i<nbRobots; i++){
             Random r  = new Random();
-            tp.addNode(10+r.nextInt(width-100), 10+r.nextInt(height-100), new Robot());
+            tp.addNode(10+r.nextInt(width-20), 10+r.nextInt(height-20), new Robot());
         }
     }
 
