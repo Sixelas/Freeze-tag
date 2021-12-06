@@ -14,6 +14,8 @@ public class Robot extends Node {
     private Point dest;
     private Robot cible;
     private boolean arrive = false;
+    public boolean forRandom = true;
+    public boolean choice = false;
 
 
     public Robot(){
@@ -38,6 +40,14 @@ public class Robot extends Node {
         this.awake = awake;
     }
 
+    public boolean isChoice() {
+        return choice;
+    }
+
+    public void setChoice(boolean choice) {
+        this.choice = choice;
+    }
+
 
     @Override
     public void onStart() {
@@ -48,18 +58,41 @@ public class Robot extends Node {
     @Override
     public void onClock() {
         //super.onClock();
+        isEnd();
         if(awake){
-            if (distance(dest) > speed) {
-                setDirection(dest);
-                move(speed);
-            }else{
-                if(!arrive){
-                    setLocation(dest);
-                    arrive();
+            //System.out.println("id : "+this.getID()+" dest : "+dest);
+            if(!(dest==null)){
+                if (distance(dest) > speed) {
+                    //System.out.println("Coucou id : "+this.getID()+" dest : "+dest);
+                    setDirection(dest);
+                    move(speed);
+                }else{
+                    if(!arrive){
+                        setLocation(dest);
+                        arrive();
+                    }else{
+                        arrive = false;
+                        searchTarget();
+                    }
                 }
             }
         }
 
+    }
+
+    private void isEnd() {
+        int cpt = 0;
+        for(Node n : super.getTopology().getNodes()){
+            if(n instanceof Robot){
+                if(((Robot) n).isAwake()){
+                    cpt++;
+                    if(cpt == super.getTopology().getNodes().size()){
+                        super.getTopology().pause();
+                        System.out.println("FINI, time = "+ super.getTime());
+                    }
+                }
+            }
+        }
     }
 
     private void arrive() { //Quand on est arrivé sur le robot cible, on lui envoie un message pour le réveiller.
@@ -78,7 +111,9 @@ public class Robot extends Node {
         if(searchTarget()){
             System.out.println("Cible : "+ cible);
         }else{
-            System.out.println("FINI");
+            //super.getTopology().pause();
+            //System.out.println("FINI, time = "+ super.getTime());
+
         }
     }
 
@@ -94,7 +129,8 @@ public class Robot extends Node {
             if(searchTarget()){
                 System.out.println("Cible : "+ cible);
             }else{
-                System.out.println("FINI");
+                //super.getTopology().pause();
+                //System.out.println("FINI, time = "+ super.getTime());
             }
         }
     }
@@ -122,4 +158,5 @@ public class Robot extends Node {
     public void setDest(Point point) {
         this.dest = point;
     }
+
 }

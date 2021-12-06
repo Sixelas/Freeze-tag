@@ -27,7 +27,7 @@ public class Map implements BackgroundPainter{
             case 1 : //On place soi-même les robots
                 break;
             case 2 : //Génère des robots aléatoirement
-                generateRobots(15);
+                generateRobots(20);
                 break;
         }
         tp.start();
