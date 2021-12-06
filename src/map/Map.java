@@ -14,31 +14,45 @@ import java.util.Random;
 public class Map implements BackgroundPainter{
 
     private Topology tp;
+    //private Algorithms algo;
 
     public static void main(String[] args) {
-        new Map(1); //Avec ça on controle quel type de map on veut
+        new Map(2);    //Avec ça on controle quel type de map on veut
+                            // ICI ON CHANGE LES PARAMETRES
+                            // type 1 = config1
+                            // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
     }
 
     public Map(int type){
+
         tp = new Topology();
         tp.setCommunicationRange(0);
         JViewer jv = new JViewer(tp);
         jv.getJTopology().setDefaultBackgroundPainter(this);
         tp.setNodeModel("robot", Robot.class);
+        //algo = new Algorithms(tp);
 
         switch (type) {
-            case 1 : //On place soi-même les robots ou on lance une save
+            case 1 : //On lance la config 1
                 config1();
                 break;
             case 2 : //Génère des robots aléatoirement
                 generateRobots(20);
                 break;
         }
-        chooseFirst(2,1);
+        //ICI ON CHANGE LES PARAMETRES
+        chooseFirst(0,2); //type = méthode pour choisir le premier robot.
+                                    // algo = quel algo sera utilisé par tous les robots.
+                                    // type 0 = random choice
+                                    // type 1 = the first robot of the list is chosen
+                                    // type>1 ou type<0 = on choisit notre robot
+                                    // algo 1  = algo1 (voir dans Algorithms.java)
+                                    // algo 2  = algo2 (voir dans Algorithms.java)
+                                    // algo>2 ou algo<1  = algo1
     }
 
     private void chooseFirst(int type, int algo) { //Choix du premier robot à réveiller
-
+        int aa = algo;
         if(type == 0){ //random choice
 
             Random r = new Random();
@@ -54,6 +68,7 @@ public class Map implements BackgroundPainter{
                 a.algo2((Robot)z);
             }else{
                 a.algo1((Robot)z);
+                aa = 1;
             }
 
         }else if (type == 1){ //the first robot of the list is chosen
@@ -69,11 +84,26 @@ public class Map implements BackgroundPainter{
                 a.algo2((Robot)z);
             }else{
                 a.algo1((Robot)z);
+                aa = 1;
             }
 
         }else{ //Choix libre
             System.out.println("choisir un robot avec ctrl+clic puis lancer avec start execution !");
+            if((algo < 1) || (algo > 2) ){
+                aa = 1;
+            }
+            for(Node n : tp.getNodes()){
+                if(n instanceof Robot){
+                    ((Robot) n).a = aa;
+                }
+            }
             return;
+        }
+
+        for(Node n : tp.getNodes()){
+            if(n instanceof Robot){
+                ((Robot) n).a = aa;
+            }
         }
         tp.start();
     }

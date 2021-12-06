@@ -16,6 +16,8 @@ public class Robot extends Node {
     private boolean arrive = false;
     public boolean forRandom = true;
     public boolean choice = false;
+    //public Algorithms algo;
+    public int a;
 
 
     public Robot(){
@@ -137,7 +139,13 @@ public class Robot extends Node {
 
     private boolean searchTarget() { // Cherche un robot à réveiller
         Algorithms algo = new Algorithms(super.getTopology());
-        return algo.algo2(this);
+        if(a == 1){
+            return algo.algo1(this);
+        }else if (a == 2){
+            return algo.algo2(this);
+        }else{
+            return algo.algo1(this);
+        }
     }
 
     @Override
