@@ -109,7 +109,7 @@ public class Robot extends Node {
         super.onSelection();
         awake = true;
         if(searchTarget()){
-            System.out.println("Cible : "+ cible);
+            //System.out.println("Cible : "+ cible);
         }else{
             //super.getTopology().pause();
             //System.out.println("FINI, time = "+ super.getTime());
@@ -127,7 +127,7 @@ public class Robot extends Node {
             setColor(new Color(Color.CYAN));
             //System.out.println("recu");
             if(searchTarget()){
-                System.out.println("Cible : "+ cible);
+                //System.out.println("Cible : "+ cible);
             }else{
                 //super.getTopology().pause();
                 //System.out.println("FINI, time = "+ super.getTime());
@@ -137,7 +137,7 @@ public class Robot extends Node {
 
     private boolean searchTarget() { // Cherche un robot à réveiller
         Algorithms algo = new Algorithms(super.getTopology());
-        return algo.algo1(this);
+        return algo.algo2(this);
     }
 
     @Override

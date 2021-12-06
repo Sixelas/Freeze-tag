@@ -17,9 +17,11 @@ public class Algorithms {
 
     public Algorithms(Topology tp){
         this.tp = tp;
+        /*
         for(Node n : tp.getNodes()){
             robots.add((Robot)n);
         }
+        */
     }
 
     //Réveille les robots dans la liste les uns à la suite des autres, pas opti du tout.
@@ -39,21 +41,31 @@ public class Algorithms {
     }
 
     //Réveille les robots en les choisissant aléatoirement dans la liste.
-    /*
+
     public boolean algo2(Robot start){
-        Random rand = new Random();
 
-        for(Robot r : robots){
+        List<Robot> robots = new ArrayList<>();
 
-            if(!((Robot) r).isAwake()){
-                start.setCible((Robot) r);
-                start.setDest(new Point(r.getX(), r.getY()));
-                return true;
+        for(Node r : tp.getNodes()){
+            if(r instanceof Robot){
+                if((!(((Robot) r).isAwake())) && (!(((Robot) r).isChoice()))){
+                    robots.add((Robot) r);
+                }
             }
         }
+        if(robots.size() > 0){
+            Random r = new Random();
+            Robot z = robots.get(r.nextInt(robots.size()));
+            start.setCible(z);
+            z.setChoice(true);
+            z.setColor(new Color(Color.ORANGE));
+            start.setDest(new Point(z.getX(), z.getY()));
+            return true;
+        }
+
         return false;
     }
-    */
+
 
 
 
