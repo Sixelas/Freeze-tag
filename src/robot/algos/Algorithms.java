@@ -17,25 +17,23 @@ public class Algorithms {
 
     public Algorithms(Topology tp){
         this.tp = tp;
-        /*
+
         for(Node n : tp.getNodes()){
             robots.add((Robot)n);
         }
-        */
+
     }
 
     //Réveille les robots dans la liste les uns à la suite des autres, pas opti du tout.
     public boolean algo1(Robot start){
-        for(Node r : tp.getNodes()){
-            if(r instanceof Robot){
-                if((!((Robot) r).isAwake()) && (!((Robot) r).isChoice())){
-                    start.setCible((Robot) r);
-                    ((Robot) r).setChoice(true);
-                    ((Robot) r).setColor(new Color(Color.ORANGE));
+        for(Robot r : robots){
+                if((! r.isAwake()) && (! r.isChoice())){
+                    start.setCible(r);
+                    (r).setChoice(true);
+                    (r).setColor(new Color(Color.ORANGE));
                     start.setDest(new Point(r.getX(), r.getY()));
                     return true;
                 }
-            }
         }
         return false;
     }
@@ -64,6 +62,29 @@ public class Algorithms {
         }
 
         return false;
+    }
+
+
+    // Un robot choisit comme cible à réveiller le robot le plus proche de lui.
+    public boolean algo3(Robot start){
+        double bestDist = Integer.MAX_VALUE;
+        Robot target = null;
+        for(Robot r : robots){
+            if( (!(r.isAwake())) && (!(r.isChoice())) ){
+                if(bestDist > r.distance(start)){
+                    bestDist = r.distance(start);
+                    target = r;
+                }
+            }
+        }
+        if(bestDist == Integer.MAX_VALUE){
+            return false;
+        }
+        start.setCible(target);
+        target.setChoice(true);
+        target.setColor(new Color(Color.ORANGE));
+        start.setDest(new Point(target.getX(), target.getY()));
+        return true;
     }
 
 
