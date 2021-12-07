@@ -16,7 +16,7 @@ public class Robot extends Node {
     private boolean arrive = false;
     public boolean forRandom = true;
     public boolean choice = false;
-    //public Algorithms algo;
+    public Algorithms algo;
     public int a;
 
 
@@ -54,13 +54,14 @@ public class Robot extends Node {
     @Override
     public void onStart() {
         //super.onStart();
-        //speed = 1;
+        //speed =
+        algo = new Algorithms(super.getTopology());
     }
 
     @Override
     public void onClock() {
         //super.onClock();
-        isEnd();
+        //isEnd();
         if(awake){
             //System.out.println("id : "+this.getID()+" dest : "+dest);
             if(!(dest==null)){
@@ -106,6 +107,7 @@ public class Robot extends Node {
     @Override
     public void onSelection() {
         //setIcon(Icons.STATION);
+        algo = new Algorithms(super.getTopology());
         setIconSize(25);
         setColor(new Color(Color.CYAN));
         super.onSelection();
@@ -138,7 +140,6 @@ public class Robot extends Node {
     }
 
     private boolean searchTarget() { // Cherche un robot à réveiller
-        Algorithms algo = new Algorithms(super.getTopology());
         if(a == 1){
             return algo.algo1(this);
         }else if (a == 2){

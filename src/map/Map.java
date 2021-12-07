@@ -55,7 +55,7 @@ public class Map implements BackgroundPainter{
                 break;
         }
         //ICI ON CHANGE LES PARAMETRES
-        chooseFirst(0,3); //type = méthode pour choisir le premier robot.
+        chooseFirst(0,2); //type = méthode pour choisir le premier robot.
                                     // algo = quel algo sera utilisé par tous les robots.
                                     // type 0 = random choice
                                     // type 1 = the first robot of the list is chosen
@@ -117,6 +117,11 @@ public class Map implements BackgroundPainter{
                     ((Robot) n).a = aa;
                 }
             }
+            int timer = tp.getTime();
+            //tp.start();
+            while(!finish()){
+            }
+            System.out.println("time : "+(tp.getTime()-timer));
             return;
         }
 
@@ -125,7 +130,12 @@ public class Map implements BackgroundPainter{
                 ((Robot) n).a = aa;
             }
         }
+        int timer = tp.getTime();
         tp.start();
+        while(!finish()){
+        }
+        System.out.println("time : "+(tp.getTime()-timer));
+
         /**
         writer.write(" Algorithm : "+algo+"\n");
         int timer = tp.getTime();
