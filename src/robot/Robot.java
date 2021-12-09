@@ -25,7 +25,12 @@ public class Robot extends Node {
         setIconSize((int)(getIconSize()*1.5));
         speed = 3;
     }
-
+    public Robot(int algo){
+        setIcon(Icons.ROBOT);
+        setIconSize((int)(getIconSize()*1.5));
+        speed = 3;
+        a = algo;
+    }
     public double getSpeed() {
         return speed;
     }
@@ -56,6 +61,7 @@ public class Robot extends Node {
         //super.onStart();
         //speed =
         algo = new Algorithms(super.getTopology());
+        //System.out.println("speed : "+speed);
     }
 
     @Override
@@ -170,4 +176,15 @@ public class Robot extends Node {
         this.dest = point;
     }
 
+    public void reset() {
+        speed = 0;
+        awake = false;
+        dest = null;
+        cible = null;
+        arrive = false;
+        forRandom = true;
+        choice = false;
+        Algorithms algo = null;
+        a = -1;
+    }
 }

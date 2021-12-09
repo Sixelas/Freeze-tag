@@ -30,7 +30,8 @@ public class Map implements BackgroundPainter{
      }
      **/
     public static void main(String[] args) {
-        new Map(1);    //Avec ça on controle quel type de map on veut
+        //new Map(1);    //Avec ça on controle quel type de map on veut
+        new Simulator(5,4,20,0);
         // ICI ON CHANGE LES PARAMETRES
         // type 1 = config1
         // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
