@@ -18,28 +18,28 @@ public class Map implements BackgroundPainter{
 
     private Topology tp;
     //private Algorithms algo;
-/**
-    public static PrintWriter writer;
+    /**
+     public static PrintWriter writer;
 
-    static {
-        try {
-            writer = new PrintWriter(new File(java.time.LocalDateTime.now()+".txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-**/
+     static {
+     try {
+     writer = new PrintWriter(new File(java.time.LocalDateTime.now()+".txt"));
+     } catch (FileNotFoundException e) {
+     e.printStackTrace();
+     }
+     }
+     **/
     public static void main(String[] args) {
-        new Map(2);    //Avec ça on controle quel type de map on veut
-                            // ICI ON CHANGE LES PARAMETRES
-                            // type 1 = config1
-                            // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
+        new Map(1);    //Avec ça on controle quel type de map on veut
+        // ICI ON CHANGE LES PARAMETRES
+        // type 1 = config1
+        // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
     }
 
     public Map(int type){
 
-        tp = new Topology();
-        tp.setCommunicationRange(0);
+        tp = new Topology(800,800);
+        tp.setCommunicationRange(60);
         JViewer jv = new JViewer(tp);
         jv.getJTopology().setDefaultBackgroundPainter(this);
         tp.setNodeModel("robot", Robot.class);
@@ -48,31 +48,33 @@ public class Map implements BackgroundPainter{
 
         switch (type) {
             case 1 : //On lance la config
-                config2();
+                config5();
                 break;
             case 2 : //Génère des robots aléatoirement
-                generateRobots(30);
+                generateRobots(10);
                 break;
         }
         //ICI ON CHANGE LES PARAMETRES
-        chooseFirst(0,2); //type = méthode pour choisir le premier robot.
-                                    // algo = quel algo sera utilisé par tous les robots.
-                                    // type 0 = random choice
-                                    // type 1 = the first robot of the list is chosen
-                                    // type>1 ou type<0 = on choisit notre robot
-                                    // algo 1  = algo1 (voir dans Algorithms.java)
-                                    // algo 2  = algo2 (voir dans Algorithms.java)
-                                    // algo 3  = algo3 (voir dans Algorithms.java)
-                                    // algo>2 ou algo<1  = algo1
+        chooseFirst(2,3); //type = méthode pour choisir le premier robot.
+        // algo = quel algo sera utilisé par tous les robots.
+        // type 0 = random choice
+        // type 1 = the first robot of the list is chosen
+        // type 2 = the robot with highest degree is chosen
+        // type>2 ou type<0 = on choisit notre robot
+        // algo 1  = algo1 (voir dans Algorithms.java)
+        // algo 2  = algo2 (voir dans Algorithms.java)
+        // algo 3  = algo3 (voir dans Algorithms.java)
+        // algo 4 = algo4
+        // algo>4 ou algo<1  = algo1
     }
 
     private void chooseFirst(int type, int algo) { //Choix du premier robot à réveiller
-
+        Node z = null;
         int aa = algo;
         if(type == 0){ //random choice
 
             Random r = new Random();
-            Node z = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
+            z = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
             ((Robot)z).setAwake(true);
             ((Robot)z).setIconSize(25);
             ((Robot)z).setColor(new Color(Color.CYAN));
@@ -84,6 +86,8 @@ public class Map implements BackgroundPainter{
                 a.algo2((Robot)z);
             }else if(algo == 3) {
                 a.algo3((Robot)z);
+            }else if(algo == 4) {
+                a.algo4((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -91,7 +95,7 @@ public class Map implements BackgroundPainter{
 
         }else if (type == 1){ //the first robot of the list is chosen
 
-            Node z = tp.getNodes().get(0);
+            z = tp.getNodes().get(0);
             ((Robot)z).setAwake(true);
             ((Robot)z).setIconSize(25);
             ((Robot)z).setColor(new Color(Color.CYAN));
@@ -102,6 +106,34 @@ public class Map implements BackgroundPainter{
                 a.algo2((Robot)z);
             }else if(algo == 3) {
                 a.algo3((Robot)z);
+            }else if(algo == 4) {
+                a.algo4((Robot)z);
+            }else{
+                a.algo1((Robot)z);
+                aa = 1;
+            }
+
+        }else if (type == 2){ //same as algo4
+            int bestDegree = 0;
+            z = null;
+            for(Node r : tp.getNodes()){
+                if(bestDegree < r.getNeighbors().size()){
+                    bestDegree = r.getNeighbors().size();
+                    z = r;
+                }
+            }
+            ((Robot)z).setAwake(true);
+            ((Robot)z).setIconSize(25);
+            ((Robot)z).setColor(new Color(Color.CYAN));
+            Algorithms a = new Algorithms(tp);
+            if(algo == 1){
+                a.algo1((Robot)z);
+            }else if(algo == 2) {
+                a.algo2((Robot)z);
+            }else if(algo == 3) {
+                a.algo3((Robot)z);
+            }else if(algo == 4) {
+                a.algo4((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -109,43 +141,49 @@ public class Map implements BackgroundPainter{
 
         }else{ //Choix libre
             System.out.println("choisir un robot avec ctrl+clic puis lancer avec start execution !");
-            if((algo < 1) || (algo > 3) ){
+            if((algo < 1) || (algo > 4) ){
                 aa = 1;
             }
             for(Node n : tp.getNodes()){
-                if(n instanceof Robot){
+                if(n instanceof Robot) {
                     ((Robot) n).a = aa;
                 }
             }
             int timer = tp.getTime();
             //tp.start();
+            long timer2 = System.currentTimeMillis();
             while(!finish()){
             }
+            System.out.println(System.currentTimeMillis() - timer2);
             System.out.println("time : "+(tp.getTime()-timer));
             return;
         }
 
         for(Node n : tp.getNodes()){
             if(n instanceof Robot){
-                ((Robot) n).a = aa;
+                if(n instanceof Robot) {
+                    ((Robot) n).a = aa;
+                }
             }
         }
         int timer = tp.getTime();
+        long timer2 = System.currentTimeMillis();
         tp.start();
         while(!finish()){
         }
+        System.out.println(System.currentTimeMillis() - timer2);
         System.out.println("time : "+(tp.getTime()-timer));
 
         /**
-        writer.write(" Algorithm : "+algo+"\n");
-        int timer = tp.getTime();
-        tp.start();
-        while(!finish()){
-            System.out.print(".");
-        }
-        writer.write("temps : "+(tp.getTime()-timer));
-        writer.flush();
-        writer.close();
+         writer.write(" Algorithm : "+algo+"\n");
+         int timer = tp.getTime();
+         tp.start();
+         while(!finish()){
+         System.out.print(".");
+         }
+         writer.write("temps : "+(tp.getTime()-timer));
+         writer.flush();
+         writer.close();
          **/
     }
 
@@ -164,8 +202,9 @@ public class Map implements BackgroundPainter{
     private void generateRobots(int nbRobots) { //Robots placés au hasard
         int width = tp.getWidth();
         int height = tp.getHeight();
+        Random r  = new Random(10);
         for(int i=0; i<nbRobots; i++){
-            Random r  = new Random();
+
             tp.addNode(10+r.nextInt(width-20), 10+r.nextInt(height-20), new Robot());
         }
     }
@@ -201,6 +240,52 @@ public class Map implements BackgroundPainter{
                 tp.addNode(i, j, new Robot());
             }
         }
+    }
+
+    private void config4() { //théorie pour prouver qu'il faut choisir en premier un robot avec pleins de voisins
+        int width = tp.getWidth();
+        int height = tp.getHeight();
+
+        for(int i=50; i<width-300; i=i+(width/20)){
+            for(int j=50; j<height-300; j=j+(height/20)) {
+                tp.addNode(i, j, new Robot());
+            }
+        }
+        tp.addNode(width-10, height-10, new Robot());
+        tp.addNode(10, height-10, new Robot());
+    }
+
+    private void config5() { //théorie pour prouver qu'il faut choisir en premier un robot avec pleins de voisins
+        int width = tp.getWidth();
+        int height = tp.getHeight();
+
+        for(int i=50; i<width-(width-200); i=i+(width/20)){
+            for(int j=50; j<height-(height-200); j=j+(height/20)) {
+                tp.addNode(i, j, new Robot());
+            }
+        }
+
+        for(int i=width-200; i<width; i=i+(width/20)){
+            for(int j=height-200; j<height; j=j+(height/20)) {
+                tp.addNode(i, j, new Robot());
+            }
+        }
+
+        for(int i=width-200; i<width; i=i+(width/20)){
+            for(int j=50; j<height-(height-200); j=j+(height/20)) {
+                tp.addNode(i, j, new Robot());
+            }
+        }
+
+        for(int i=50; i<width-(width-200); i=i+(width/20)){
+            for(int j=height-200; j<height; j=j+(height/20)) {
+                tp.addNode(i, j, new Robot());
+            }
+        }
+
+
+        //tp.addNode(width-10, height-10, new Robot());
+        tp.addNode(width/2, height/2, new Robot());
     }
 
     @Override

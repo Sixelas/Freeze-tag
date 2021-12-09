@@ -27,13 +27,14 @@ public class Algorithms {
     //Réveille les robots dans la liste les uns à la suite des autres, pas opti du tout.
     public boolean algo1(Robot start){
         for(Robot r : robots){
-                if((! r.isAwake()) && (! r.isChoice())){
-                    start.setCible(r);
-                    (r).setChoice(true);
-                    (r).setColor(new Color(Color.ORANGE));
-                    start.setDest(new Point(r.getX(), r.getY()));
-                    return true;
-                }
+            if((! r.isAwake()) && (! r.isChoice())){
+                start.setCible(r);
+                (r).setChoice(true);
+                (r).setColor(new Color(Color.ORANGE));
+                r.setCommunicationRange(0);
+                start.setDest(new Point(r.getX(), r.getY()));
+                return true;
+            }
         }
         return false;
     }
@@ -57,6 +58,7 @@ public class Algorithms {
             start.setCible(z);
             z.setChoice(true);
             z.setColor(new Color(Color.ORANGE));
+            z.setCommunicationRange(0);
             start.setDest(new Point(z.getX(), z.getY()));
             return true;
         }
@@ -83,6 +85,31 @@ public class Algorithms {
         start.setCible(target);
         target.setChoice(true);
         target.setColor(new Color(Color.ORANGE));
+        target.setCommunicationRange(0);
+        start.setDest(new Point(target.getX(), target.getY()));
+        return true;
+    }
+
+    // Un robot choisit comme cible à réveiller le robot le plus proche de lui.
+    public boolean algo4(Robot start){
+        //double bestDist = Integer.MAX_VALUE;
+        int bestDegree = -1;
+        Robot target = null;
+        for(Robot r : robots){
+            if( (!(r.isAwake())) && (!(r.isChoice())) ){
+                if(bestDegree < r.getNeighbors().size()){
+                    bestDegree = r.getNeighbors().size();
+                    target = r;
+                }
+            }
+        }
+        if(bestDegree == -1){
+            return false;
+        }
+        start.setCible(target);
+        target.setChoice(true);
+        target.setColor(new Color(Color.ORANGE));
+        target.setCommunicationRange(0);
         start.setDest(new Point(target.getX(), target.getY()));
         return true;
     }
