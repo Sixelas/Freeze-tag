@@ -11,141 +11,222 @@ import robot.algos.Algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class Simulator {
 
     private Topology tp;
+    public long[][] result;
+    private int type;
+    private int algo;
+    private int nbRep;
+    private int firstChoice;
+    private int[] tabSizes;
 
-    /*
+
     public static PrintWriter writer;
 
     static {
-        try {
-            writer = new PrintWriter(new File(java.time.LocalDateTime.now()+".txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
 
-    public Simulator(int type, int algo, int nbRep, int firstChoice){
+    }
 
-        long[] result = new long[nbRep];
+    //type = quelle config de robots : 0 random, 1 config1, ..., 5 config5.
+    //algo = quel algo : 1 algo1, ..., 4 algo4.
+    //nbRep = combien de répétitions
+    //firstChoice = quel choix de premier robot : 0 random, 1 gentil, 2 adversaire.
+    public Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes){
+
+        this.result = new long[tabSizes.length][nbRep];
+        this.type = type;
+        this.algo = algo;
+        this.nbRep = nbRep;
+        this.firstChoice = firstChoice;
+        this.tabSizes = tabSizes;
 
 
-        for(int i = 0; i<nbRep; i++){
-            tp = new Topology(400,400);
-            tp.setCommunicationRange(60);
-            tp.setDefaultNodeModel(Robot.class);
-            JViewer jv = new JViewer(tp);
-            Node firstRobot = null;
+        launchSimulation();
 
-            switch (type) {
-                case 0 :
-                    generateRandom(100, algo);
-                    break;
-                case 1 :
-                    config1(algo);
-                    break;
-                case 2 :
-                    config2(algo);
-                    break;
-                case 3 :
-                    config3(algo);
-                    break;
-                case 4 :
-                    config4(algo);
-                    break;
-                case 5 :
-                    config5(algo);
-                    break;
-            }
-            switch (firstChoice){
-                case 0 : //Random choice
-                    Random r = new Random();
-                    firstRobot = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
-                    ((Robot)firstRobot).setAwake(true);
-                    ((Robot)firstRobot).setIconSize(25);
-                    ((Robot)firstRobot).setColor(new Color(Color.CYAN));
-                    ((Robot)firstRobot).setAwake(true);
-                    ((Robot)firstRobot).setCommunicationRange(0);
-                    break;
-                case 1 : //Gentil
-                    int bestDegree = 0;
-                    for(Node n : tp.getNodes()){
-                        if(bestDegree < n.getNeighbors().size()){
-                            bestDegree = n.getNeighbors().size();
-                            firstRobot = n;
-                        }
-                    }
-                    ((Robot)firstRobot).setAwake(true);
-                    ((Robot)firstRobot).setIconSize(25);
-                    ((Robot)firstRobot).setColor(new Color(Color.CYAN));
-                    ((Robot)firstRobot).setCommunicationRange(0);
-                    break;
-                case 2 : //Méchant
-                    int badDegree = Integer.MAX_VALUE;
-                    for(Node n : tp.getNodes()){
-                        if(n.getNeighbors().size() ==0){
-                            firstRobot = n;
-                            break;
-                        }else if (badDegree > n.getNeighbors().size()){
-                            badDegree = n.getNeighbors().size();
-                            firstRobot = n;
-                        }
-                    }
-                    ((Robot)firstRobot).setAwake(true);
-                    ((Robot)firstRobot).setIconSize(25);
-                    ((Robot)firstRobot).setColor(new Color(Color.CYAN));
-                    ((Robot)firstRobot).setCommunicationRange(0);
-                    break;
-            }
-
-            Algorithms a = new Algorithms(tp);
-            if(algo == 1){
-                a.algo1((Robot)firstRobot);
-            }else if(algo == 2) {
-                a.algo2((Robot)firstRobot);
-            }else if(algo == 3) {
-                a.algo3((Robot)firstRobot);
-            }else if(algo == 4) {
-                a.algo4((Robot)firstRobot);
-            }else{
-                a.algo1((Robot)firstRobot);
-            }
-
-            long timer2 = System.currentTimeMillis();
-            tp.start();
-            int timer = tp.getTime();
-            while(!finish()){
-            }
-            System.out.println(System.currentTimeMillis() - timer2);
-            System.out.println("time : "+(tp.getTime()-timer));
-            result[i] = (tp.getTime()-timer);
-            tp.pause();
-            /*
-            for (Node node : tp.getNodes()){
-                //((Robot) node).reset();
-                tp.removeNode(node);
-            }*/
-            tp.clear();
-
-        }
+        /**
         long res = 0;
         for(int i = 0; i<nbRep; i++){
             res = res+result[i];
         }
         res = res/nbRep;
         System.out.println("temps moyen final : "+res);
+        writer.write("moyenne rounds : "+res+"\n");
+        **/
+        writeResult(0);
+        System.exit(0);
 
     }
 
+
+    private void launchSimulation() {
+
+        for(int s=0; s<tabSizes.length; s++){
+
+            for(int i = 0; i<nbRep; i++){
+                tp = new Topology(600,600);
+                tp.setCommunicationRange(60);
+                tp.setDefaultNodeModel(Robot.class);
+                //JViewer jv = new JViewer(tp);
+                Node firstRobot = null;
+
+                switch (type) {
+                    case 0 :
+                        generateRandom(tabSizes[s], algo);
+                        break;
+                    case 1 :
+                        config1(algo);
+                        break;
+                    case 2 :
+                        config2(algo);
+                        break;
+                    case 3 :
+                        config3(algo);
+                        break;
+                    case 4 :
+                        config4(algo);
+                        break;
+                    case 5 :
+                        config5(algo);
+                        break;
+                }
+                switch (firstChoice){
+                    case 0 : //Random choice
+                        Random r = new Random();
+                        firstRobot = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
+                        ((Robot)firstRobot).setAwake(true);
+                        ((Robot)firstRobot).setIconSize(25);
+                        ((Robot)firstRobot).setColor(new Color(Color.CYAN));
+                        ((Robot)firstRobot).setAwake(true);
+                        ((Robot)firstRobot).setCommunicationRange(0);
+                        break;
+                    case 1 : //Gentil
+                        int bestDegree = -1;
+                        for(Node n : tp.getNodes()){
+                            if(bestDegree < n.getNeighbors().size()){
+                                bestDegree = n.getNeighbors().size();
+                                firstRobot = n;
+                            }
+                        }
+                        ((Robot)firstRobot).setAwake(true);
+                        ((Robot)firstRobot).setIconSize(25);
+                        ((Robot)firstRobot).setColor(new Color(Color.CYAN));
+                        ((Robot)firstRobot).setCommunicationRange(0);
+                        break;
+                    case 2 : //Méchant
+                        int badDegree = Integer.MAX_VALUE;
+                        for(Node n : tp.getNodes()){
+                            if(n.getNeighbors().size() ==0){
+                                firstRobot = n;
+                                break;
+                            }else if (badDegree > n.getNeighbors().size()){
+                                badDegree = n.getNeighbors().size();
+                                firstRobot = n;
+                            }
+                        }
+                        ((Robot)firstRobot).setAwake(true);
+                        ((Robot)firstRobot).setIconSize(25);
+                        ((Robot)firstRobot).setColor(new Color(Color.CYAN));
+                        ((Robot)firstRobot).setCommunicationRange(0);
+                        break;
+                }
+
+                Algorithms a = new Algorithms(tp);
+                if(algo == 1){
+                    a.algo1((Robot)firstRobot);
+                }else if(algo == 2) {
+                    a.algo2((Robot)firstRobot);
+                }else if(algo == 3) {
+                    a.algo3((Robot)firstRobot);
+                }else if(algo == 4) {
+                    a.algo4((Robot)firstRobot);
+                }else{
+                    a.algo1((Robot)firstRobot);
+                }
+
+                long timer2 = System.currentTimeMillis();
+                tp.start();
+                int timer = tp.getTime();
+                System.out.println("nbRobots : "+tabSizes[s]+ " iteration : "+i);
+                while(!finish()){
+                }
+                System.out.println(System.currentTimeMillis() - timer2);
+                System.out.println("time : "+(tp.getTime()-timer));
+                result[s][i] = (tp.getTime()-timer);
+                //writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(tp.getTime()-timer)+"\n");
+                tp.pause();
+            /*
+            for (Node node : tp.getNodes()){
+                //((Robot) node).reset();
+                tp.removeNode(node);
+            }*/
+                tp.clear();
+
+            }
+        }
+
+
+
+    }
+
+    //type = 0 on faite la moyenne
+    //type = 1 on prend le temps le plus rapide
+    //type = 2 on prend le temps le plus long
+
+    private void writeResult(int type){
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+            writer = new PrintWriter(new File(type+"-"+algo+"-"+firstChoice+"_"+dtf.format(java.time.LocalDateTime.now())+".txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        writer.write("#type  algo  firstChoice  nbRobots  time\n");
+
+        if(type == 0){
+            for(int s = 0; s<tabSizes.length; s++){
+                long moyenne = 0;
+                for(int t = 0; t<nbRep; t++){
+                    moyenne = moyenne+result[s][t];
+                }
+                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(moyenne/nbRep)+"\n");
+            }
+
+        }else if(type == 1){
+
+            for(int s = 0; s<tabSizes.length; s++){
+                long meilleur = Long.MAX_VALUE;
+                for(int t = 0; t<nbRep; t++){
+                    if(meilleur < result[s][t]){
+                        meilleur = result[s][t];
+                    }
+                }
+                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +meilleur+"\n");
+            }
+
+        }else{
+            for(int s = 0; s<tabSizes.length; s++){
+                long pire = -1;
+                for(int t = 0; t<nbRep; t++){
+                    if(pire > result[s][t]){
+                        pire = result[s][t];
+                    }
+                }
+                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +pire+"\n");
+            }
+        }
+        writer.flush();
+        writer.close();
+    }
+
     private void generateRandom(int nbRobots, int algo) { //nbRobots placés au hasard
+        System.out.println("nb : "+nbRobots+" algo : "+ algo);
         int width = tp.getWidth();
         int height = tp.getHeight();
         Random r  = new Random(10);
         for(int i=0; i<nbRobots; i++){
-
             tp.addNode(10+r.nextInt(width-20), 10+r.nextInt(height-20), new Robot(algo));
         }
     }
