@@ -17,24 +17,23 @@ import java.util.Random;
 public class Map implements BackgroundPainter{
 
     private Topology tp;
-    //private Algorithms algo;
-    /**
-     public static PrintWriter writer;
 
-     static {
-     try {
-     writer = new PrintWriter(new File(java.time.LocalDateTime.now()+".txt"));
-     } catch (FileNotFoundException e) {
-     e.printStackTrace();
-     }
-     }
-     **/
     public static void main(String[] args) {
-        //new Map(1);    //Avec ça on controle quel type de map on veut
-        new Simulator(0,3,5,2, new int[]{10,20,40,80,160,320});
+
         // ICI ON CHANGE LES PARAMETRES
         // type 1 = config1
         // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
+        //new Map(1);    //Avec ça on controle quel type de map on veut
+
+
+        new Simulator(0,3,1,0, new int[]{100});
+        //type = quelle config de robots : 0 random, 1 config1, ..., 5 config5.
+        //algo = quel algo : 1 algo1, ..., 4 algo4.
+        //nbRep = combien de répétitions par algo et par taille.
+        //firstChoice = quel choix de premier robot : 0 random, 1 gentil, 2 adversaire.
+        //int[] tabSizes = Le nombre de robots à générer par map. (Pour l'instant fonctionne que sur type = 0 config random)
+
+
     }
 
     public Map(int type){
@@ -44,8 +43,7 @@ public class Map implements BackgroundPainter{
         JViewer jv = new JViewer(tp);
         jv.getJTopology().setDefaultBackgroundPainter(this);
         tp.setNodeModel("robot", Robot.class);
-        //algo = new Algorithms(tp);
-        //writer.write("type : "+type+" ");
+
 
         switch (type) {
             case 1 : //On lance la config
@@ -175,17 +173,6 @@ public class Map implements BackgroundPainter{
         System.out.println(System.currentTimeMillis() - timer2);
         System.out.println("time : "+(tp.getTime()-timer));
 
-        /**
-         writer.write(" Algorithm : "+algo+"\n");
-         int timer = tp.getTime();
-         tp.start();
-         while(!finish()){
-         System.out.print(".");
-         }
-         writer.write("temps : "+(tp.getTime()-timer));
-         writer.flush();
-         writer.close();
-         **/
     }
 
     private boolean finish() {

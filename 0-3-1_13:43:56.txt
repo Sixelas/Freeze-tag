@@ -1,7 +1,0 @@
-#type  algo  firstChoice  nbRobots  time
-0 3 1 10 266
-0 3 1 20 251
-0 3 1 40 281
-0 3 1 80 340
-0 3 1 160 320
-0 3 1 320 315

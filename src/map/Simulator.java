@@ -11,6 +11,8 @@ import robot.algos.Algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
@@ -27,9 +29,6 @@ public class Simulator {
 
     public static PrintWriter writer;
 
-    static {
-
-    }
 
     //type = quelle config de robots : 0 random, 1 config1, ..., 5 config5.
     //algo = quel algo : 1 algo1, ..., 4 algo4.
@@ -44,21 +43,9 @@ public class Simulator {
         this.firstChoice = firstChoice;
         this.tabSizes = tabSizes;
 
-
         launchSimulation();
-
-        /**
-        long res = 0;
-        for(int i = 0; i<nbRep; i++){
-            res = res+result[i];
-        }
-        res = res/nbRep;
-        System.out.println("temps moyen final : "+res);
-        writer.write("moyenne rounds : "+res+"\n");
-        **/
-        writeResult(0);
+        writeResult();
         System.exit(0);
-
     }
 
 
@@ -67,7 +54,7 @@ public class Simulator {
         for(int s=0; s<tabSizes.length; s++){
 
             for(int i = 0; i<nbRep; i++){
-                tp = new Topology(600,600);
+                tp = new Topology(800,800);
                 tp.setCommunicationRange(60);
                 tp.setDefaultNodeModel(Robot.class);
                 //JViewer jv = new JViewer(tp);
@@ -176,47 +163,36 @@ public class Simulator {
     //type = 1 on prend le temps le plus rapide
     //type = 2 on prend le temps le plus long
 
-    private void writeResult(int type){
+    private void writeResult(){
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-            writer = new PrintWriter(new File(type+"-"+algo+"-"+firstChoice+"_"+dtf.format(java.time.LocalDateTime.now())+".txt"));
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            writer = new PrintWriter(new File(s+File.separator+"simulations"+File.separator+type+"-"+algo+"-"+firstChoice+"_"+dtf.format(java.time.LocalDateTime.now())+".txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        writer.write("#type  algo  firstChoice  nbRobots  time\n");
+        writer.write("#type  algo  firstChoice  nbRobots  time  resType\n");
 
-        if(type == 0){
-            for(int s = 0; s<tabSizes.length; s++){
-                long moyenne = 0;
-                for(int t = 0; t<nbRep; t++){
-                    moyenne = moyenne+result[s][t];
+        for(int s = 0; s<tabSizes.length; s++){
+            long pire = -1;
+            long meilleur = Long.MAX_VALUE;
+            long moyenne = 0;
+
+            for(int t = 0; t<nbRep; t++){
+                moyenne = moyenne+result[s][t];
+                if(pire < result[s][t]){
+                    pire = result[s][t];
                 }
-                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(moyenne/nbRep)+"\n");
-            }
-
-        }else if(type == 1){
-
-            for(int s = 0; s<tabSizes.length; s++){
-                long meilleur = Long.MAX_VALUE;
-                for(int t = 0; t<nbRep; t++){
-                    if(meilleur < result[s][t]){
-                        meilleur = result[s][t];
-                    }
+                if(meilleur > result[s][t]){
+                    meilleur = result[s][t];
                 }
-                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +meilleur+"\n");
             }
-
-        }else{
-            for(int s = 0; s<tabSizes.length; s++){
-                long pire = -1;
-                for(int t = 0; t<nbRep; t++){
-                    if(pire > result[s][t]){
-                        pire = result[s][t];
-                    }
-                }
-                writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +pire+"\n");
-            }
+            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(moyenne/nbRep)+" "+0+"\n");
+            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +meilleur+" "+1+"\n");
+            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +pire+" "+2+"\n");
         }
+
         writer.flush();
         writer.close();
     }
