@@ -24,7 +24,7 @@ public class Map implements BackgroundPainter{
         // ICI ON CHANGE LES PARAMETRES
         // type 1 = config1
         // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
-        new Map(2);    //Avec ça on controle quel type de map on veut
+        new Map(1);    //Avec ça on controle quel type de map on veut
 
 
         //new Simulator(0,5,10,0, new int[]{10,20,40,80,160,320});
@@ -51,11 +51,11 @@ public class Map implements BackgroundPainter{
                 config5();
                 break;
             case 2 : //Génère des robots aléatoirement
-                generateRobots(320);
+                generateRobots(700);
                 break;
         }
         //ICI ON CHANGE LES PARAMETRES
-        chooseFirst(6,5); //type = méthode pour choisir le premier robot.
+        chooseFirst(0,5); //type = méthode pour choisir le premier robot.
         // algo = quel algo sera utilisé par tous les robots.
         // type 0 = random choice
         // type 1 = the first robot of the list is chosen
