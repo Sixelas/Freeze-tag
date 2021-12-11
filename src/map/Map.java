@@ -17,16 +17,17 @@ import java.util.Random;
 public class Map implements BackgroundPainter{
 
     private Topology tp;
+    int aa;
 
     public static void main(String[] args) {
 
         // ICI ON CHANGE LES PARAMETRES
         // type 1 = config1
         // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
-        //new Map(1);    //Avec ça on controle quel type de map on veut
+        //new Map(2);    //Avec ça on controle quel type de map on veut
 
 
-        new Simulator(0,3,1,0, new int[]{100});
+        new Simulator(0,5,10,0, new int[]{10,20,40,80,160,320});
         //type = quelle config de robots : 0 random, 1 config1, ..., 5 config5.
         //algo = quel algo : 1 algo1, ..., 4 algo4.
         //nbRep = combien de répétitions par algo et par taille.
@@ -50,11 +51,11 @@ public class Map implements BackgroundPainter{
                 config5();
                 break;
             case 2 : //Génère des robots aléatoirement
-                generateRobots(10);
+                generateRobots(320);
                 break;
         }
         //ICI ON CHANGE LES PARAMETRES
-        chooseFirst(2,3); //type = méthode pour choisir le premier robot.
+        chooseFirst(0,5); //type = méthode pour choisir le premier robot.
         // algo = quel algo sera utilisé par tous les robots.
         // type 0 = random choice
         // type 1 = the first robot of the list is chosen
@@ -64,12 +65,13 @@ public class Map implements BackgroundPainter{
         // algo 2  = algo2 (voir dans Algorithms.java)
         // algo 3  = algo3 (voir dans Algorithms.java)
         // algo 4 = algo4
+        // algo 5 = algo5
         // algo>4 ou algo<1  = algo1
     }
 
     private void chooseFirst(int type, int algo) { //Choix du premier robot à réveiller
         Node z = null;
-        int aa = algo;
+        aa = algo;
         if(type == 0){ //random choice
 
             Random r = new Random();
@@ -87,6 +89,8 @@ public class Map implements BackgroundPainter{
                 a.algo3((Robot)z);
             }else if(algo == 4) {
                 a.algo4((Robot)z);
+            }else if(algo == 5) {
+                a.algo5((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -107,6 +111,8 @@ public class Map implements BackgroundPainter{
                 a.algo3((Robot)z);
             }else if(algo == 4) {
                 a.algo4((Robot)z);
+            }else if(algo == 5) {
+                a.algo5((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -133,6 +139,8 @@ public class Map implements BackgroundPainter{
                 a.algo3((Robot)z);
             }else if(algo == 4) {
                 a.algo4((Robot)z);
+            }else if(algo == 5) {
+                a.algo5((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -140,7 +148,7 @@ public class Map implements BackgroundPainter{
 
         }else{ //Choix libre
             System.out.println("choisir un robot avec ctrl+clic puis lancer avec start execution !");
-            if((algo < 1) || (algo > 4) ){
+            if((algo < 1) || (algo > 5) ){
                 aa = 1;
             }
             for(Node n : tp.getNodes()){
@@ -176,15 +184,36 @@ public class Map implements BackgroundPainter{
     }
 
     private boolean finish() {
+        if(aa == 5){
+            int cpt=0;
+            for(Node n : tp.getNodes()){
+                if(n instanceof Robot){
+                    if( !((Robot) n).isAwake() ){
+                        return false;
+                    }else{
+                        cpt++;
+                    }
+                }
+            }
+            if(cpt >= tp.getNodes().size()-1){
+                tp.pause();
+                //System.exit(0);
+                return true;
+            }
+        }
+        int cpt=0;
         for(Node n : tp.getNodes()){
             if(n instanceof Robot){
                 if( !((Robot) n).isAwake() ){
+                    cpt++;
                     return false;
                 }
             }
         }
         tp.pause();
+        //System.exit(0);
         return true;
+
     }
 
     private void generateRobots(int nbRobots) { //Robots placés au hasard

@@ -130,6 +130,8 @@ public class Simulator {
                     a.algo3((Robot)firstRobot);
                 }else if(algo == 4) {
                     a.algo4((Robot)firstRobot);
+                }else if(algo == 5) {
+                    a.algo5((Robot)firstRobot);
                 }else{
                     a.algo1((Robot)firstRobot);
                 }
@@ -137,7 +139,7 @@ public class Simulator {
                 long timer2 = System.currentTimeMillis();
                 tp.start();
                 int timer = tp.getTime();
-                System.out.println("nbRobots : "+tabSizes[s]+ " iteration : "+i);
+                System.out.println("nbRobots : "+tabSizes[s]+ " iteration : "+(i+1));
                 while(!finish()){
                 }
                 System.out.println(System.currentTimeMillis() - timer2);
@@ -296,6 +298,39 @@ public class Simulator {
         }
         tp.pause();
         return true;
+    }
+
+    private boolean finish2() {
+        if(algo == 5){
+            int cpt=0;
+            for(Node n : tp.getNodes()){
+                if(n instanceof Robot){
+                    if( !((Robot) n).isAwake() ){
+                        return false;
+                    }else{
+                        cpt++;
+                    }
+                }
+            }
+            if(cpt >= tp.getNodes().size()-1){
+                tp.pause();
+                //System.exit(0);
+                return true;
+            }
+        }
+        int cpt=0;
+        for(Node n : tp.getNodes()){
+            if(n instanceof Robot){
+                if( !((Robot) n).isAwake() ){
+                    cpt++;
+                    return false;
+                }
+            }
+        }
+        tp.pause();
+        //System.exit(0);
+        return true;
+
     }
 
 }
