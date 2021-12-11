@@ -32,11 +32,13 @@ set key top left
 stats "0-1-0.txt" u 5
 set xrange [:]
 set yrange [:STATS_max]
-set output "BestTime_AllAlgorithms_RandomMap-RandomChoice.pdf"
-set title "BestTime on RandomMap with RandomChoice"
+set output "MoyTime_AllAlgorithms_RandomMap-RandomChoice.pdf"
+set title "MoyTime on RandomMap with RandomChoice"
 set xlabel "nbRobots"
 set ylabel "time"
-plot "0-1-0.txt" using 4:($6==1?$5:1/0) title "algo1" with linespoints, "0-2-0.txt" using 4:($6==1?$5:1/0) title "algo2" with linespoints, "0-3-0.txt" using 4:($6==1?$5:1/0) title "algo3" with linespoints, "0-4-0.txt" using 4:($6==1?$5:1/0) title "algo4" with linespoints, "0-5-0.txt" using 4:($6==1?$5:1/0) title "algo5" with linespoints
+#plot "0-1-0.txt" using 4:($6==1?$5:1/0) title "algo1" with linespoints, "0-2-0.txt" using 4:($6==1?$5:1/0) title "algo2" with linespoints, "0-3-0.txt" using 4:($6==1?$5:1/0) title "algo3" with linespoints, "0-4-0.txt" using 4:($6==1?$5:1/0) title "algo4" with linespoints, "0-5-0.txt" using 4:($6==1?$5:1/0) title "algo5" with linespoints
+#plot "0-1-0.txt" using 4:($6==0?$5:1/0) title "algo1" with linespoints, "0-2-0.txt" using 4:($6==0?$5:1/0) title "algo2" with linespoints, "0-3-0.txt" using 4:($6==0?$5:1/0) title "algo3" with linespoints, "0-4-0.txt" using 4:($6==0?$5:1/0) title "algo4" with linespoints, "0-5-0.txt" using 4:($6==0?$5:1/0) title "algo5" with linespoints
+plot "0-1-0.txt" using 4:($6==2?$5:1/0) title "algo1" with linespoints, "0-2-0.txt" using 4:($6==2?$5:1/0) title "algo2" with linespoints, "0-3-0.txt" using 4:($6==2?$5:1/0) title "algo3" with linespoints, "0-4-0.txt" using 4:($6==2?$5:1/0) title "algo4" with linespoints, "0-5-0.txt" using 4:($6==2?$5:1/0) title "algo5" with linespoints
 
 
 
