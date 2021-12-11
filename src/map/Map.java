@@ -24,7 +24,7 @@ public class Map implements BackgroundPainter{
         // ICI ON CHANGE LES PARAMETRES
         // type 1 = config1
         // type 2 = Génère des robots aléatoirement (on peut choisir le nombre)
-        new Map(1);    //Avec ça on controle quel type de map on veut
+        new Map(0, 0, 5,500);    //Avec ça on controle quel type de map on veut
 
 
         //new Simulator(0,5,10,0, new int[]{10,20,40,80,160,320});
@@ -37,7 +37,7 @@ public class Map implements BackgroundPainter{
 
     }
 
-    public Map(int type){
+    public Map(int type, int firstChoice, int algo, int nbRobots){
 
         tp = new Topology(800,800);
         tp.setCommunicationRange(60);
@@ -47,15 +47,27 @@ public class Map implements BackgroundPainter{
 
 
         switch (type) {
-            case 1 : //On lance la config
+            case 1 : //On lance la config1
+                config1();
+                break;
+            case 2 : //On lance la config2
+                config2();
+                break;
+            case 3 : //On lance la config3
+                config3();
+                break;
+            case 4 : //On lance la config4
+                config4();
+                break;
+            case 5 : //On lance la config5
                 config5();
                 break;
-            case 2 : //Génère des robots aléatoirement
-                generateRobots(700);
+            default: //Génère des robots aléatoirement
+                generateRobots(nbRobots);
                 break;
         }
         //ICI ON CHANGE LES PARAMETRES
-        chooseFirst(0,5); //type = méthode pour choisir le premier robot.
+        chooseFirst(firstChoice,algo); //type = méthode pour choisir le premier robot.
         // algo = quel algo sera utilisé par tous les robots.
         // type 0 = random choice
         // type 1 = the first robot of the list is chosen
@@ -69,10 +81,10 @@ public class Map implements BackgroundPainter{
         // algo>4 ou algo<1  = algo1
     }
 
-    private void chooseFirst(int type, int algo) { //Choix du premier robot à réveiller
+    private void chooseFirst(int firstChoice, int algo) { //Choix du premier robot à réveiller
         Node z = null;
         aa = algo;
-        if(type == 0){ //random choice
+        if(firstChoice == 0){ //random choice
 
             Random r = new Random();
             z = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
@@ -96,7 +108,7 @@ public class Map implements BackgroundPainter{
                 aa = 1;
             }
 
-        }else if (type == 1){ //the first robot of the list is chosen
+        }else if (firstChoice == 1){ //the first robot of the list is chosen
 
             z = tp.getNodes().get(0);
             ((Robot)z).setAwake(true);
@@ -118,7 +130,7 @@ public class Map implements BackgroundPainter{
                 aa = 1;
             }
 
-        }else if (type == 2){ //same as algo4
+        }else if (firstChoice == 2){ //same as algo4
             int bestDegree = 0;
             z = null;
             for(Node r : tp.getNodes()){
