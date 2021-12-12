@@ -46,13 +46,13 @@ Un robot peut également choisir comme cible un robot déjà ciblé (ORANGE) par
 
 ###Mode Simulator :
 1. Dans le main de Map.java, il faut commenter le potential objet Map existant.
-2. On crée un objet new Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes) avec comme paramètres :\
+2. On crée un objet new Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes) avec comme paramètres :
 - type, algo : comme pour Map
 - nbRep : le nombre de répétitions pour une configuration de topologie (pour faire une moyenne/tester plusieurs combinaisons)
 - firstChoice : 0=random, 2=Meilleur choix (robot avec le meilleur degré), 2=Pire choix (Robot de degré le plus petit).
 - tabSizes : tableau contenant plusieurs quantités de robots à tester. Par exemple [10,20,50,100] pour 4 topologies avec 10 puis 20 puis 50 puis 100 Robots. Ne fonctionne que si le type de topologie est Random. Chaque valeur dans tabSizes sera lancé nbRep fois, ce qui peut être pratique quand on veut faire une moyenne en prenant le choix du premier robot aléatoirement.
 3. La progression de la simulation est visible dans le terminal. 
-4. Une fois terminé, un fichier nommé selon les paramètres de la simulation+heure du jour est contenant les datas de la simulation est généré dans le dossier simulations.
+4. Une fois terminé, un fichier nommé selon les paramètres de la simulation+heure du jour et contenant les datas de la simulation est généré dans le dossier simulations.
 5. Dans le fichier, le paramètre resType correspond à : 0=moyenne de temps, 1=meilleur temps, 2=pire temps.
 6. Dans le dossier simulation se trouve également le script script-gp.plt qui permet de générer les graphiques à partir des datas.txt 
 
