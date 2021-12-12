@@ -29,7 +29,7 @@ set datafile missing NaN
 # Pour comparer les algorithmes selon leurs temps (moyenne | meilleur | pire) sur la config Random :
 
 
-stats "0-1-0.txt" u 5
+#stats "0-1-0.txt" u 5
 #set xrange [:]
 #set yrange [:STATS_max]
 #set xlabel "nbRobots"
@@ -57,12 +57,12 @@ stats "0-1-0.txt" u 5
 # Pour comparer algo3, algo4 et algo5 (ses 2 versions) selon leurs temps (moyenne | meilleur | pire) sur la config6 :
 
 
-set key outside
-set ylabel "time"
-set border 1
-set ytics nomirror
-unset xtics
-set grid
+#set key outside
+#set ylabel "time"
+#set border 1
+#set ytics nomirror
+#unset xtics
+#set grid
 
 
 #Moyenne resType = 0 :
@@ -96,3 +96,28 @@ set grid
 #set output "Algo5_RandomMap-RandomChoice.pdf"
 #set title "Algo5 on RandomMap with RandomChoice"
 #plot "0-5-0_b.txt" using 4:($6==0?$5:1/0) title "moyenne" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b.txt" using 4:($6==1?$5:1/0) title "meilleur" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b.txt" using 4:($6==2?$5:1/0) title "pire" with linespoints pointtype 7 pointsize 0.5
+
+################## 5 ##################
+
+# Pour comparer les algorithmes algo5+4 et algo5+3 selon leurs temps (moyenne | meilleur | pire) sur la config Random :
+
+
+#set xrange [:]
+#set yrange [:]
+#set xlabel "nbRobots"
+#set ylabel "time"
+
+#Moyenne resType = 0 :
+#set output "MoyTime_Algo5opti_RandomMap-RandomChoice.pdf"
+#set title "MoyTime on RandomMap with RandomChoice"
+#plot "0-5-0_b.txt" using 4:($6==0?$5:1/0) title "algo5+3" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b_algo4.txt" using 4:($6==0?$5:1/0) title "algo5+4" with linespoints pointtype 7 pointsize 0.5
+
+#Meilleur resType = 1 :
+#set output "BestTime_Algo5opti_RandomMap-RandomChoice.pdf"
+#set title "BestTime on RandomMap with RandomChoice"
+#plot "0-5-0_b.txt" using 4:($6==1?$5:1/0) title "algo5+3" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b_algo4.txt" using 4:($6==1?$5:1/0) title "algo5+4" with linespoints pointtype 7 pointsize 0.5
+
+#Pire resType = 2 :
+#set output "WorstTime_Algo5opti_RandomMap-RandomChoice.pdf"
+#set title "WorstTime on RandomMap with RandomChoice"
+#plot "0-5-0_b.txt" using 4:($6==2?$5:1/0) title "algo5+3" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b_algo4.txt" using 4:($6==2?$5:1/0) title "algo5+4" with linespoints pointtype 7 pointsize 0.5

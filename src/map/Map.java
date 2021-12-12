@@ -20,10 +20,11 @@ public class Map implements BackgroundPainter{
         // ICI on choisit entre version Map et version Simulator.
         // Voir dans le README pour comprendre comment lancer une topologie.
 
-        new Map(0, 0, 5,300);
+        //new Map(5, 7, 5,100);
         //new Map(0, 0, 5,500);
+        //15,95
 
-        //new Simulator(0,5,10,0, new int[]{10,20,40,80,100,160,200,300,320,400,500,600,700,800});
+        new Simulator(0,5,5,0, new int[]{15,95});
         //new Simulator(6,5,10,0, new int[]{10});
 
     }
