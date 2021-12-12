@@ -3,8 +3,6 @@ package map;
 import io.jbotsim.core.Color;
 import io.jbotsim.core.Node;
 import io.jbotsim.core.Topology;
-import io.jbotsim.core.event.StartListener;
-import io.jbotsim.ui.JViewer;
 import robot.Robot;
 import robot.algos.Algorithms;
 
@@ -26,14 +24,8 @@ public class Simulator {
     private int firstChoice;
     private int[] tabSizes;
 
-
     public static PrintWriter writer;
 
-
-    //type = quelle config de robots : 0 random, 1 config1, ..., 5 config5.
-    //algo = quel algo : 1 algo1, ..., 4 algo4.
-    //nbRep = combien de répétitions
-    //firstChoice = quel choix de premier robot : 0 random, 1 gentil, 2 adversaire.
     public Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes){
 
         this.result = new long[tabSizes.length][nbRep];
@@ -54,10 +46,10 @@ public class Simulator {
         for(int s=0; s<tabSizes.length; s++){
 
             for(int i = 0; i<nbRep; i++){
+
                 tp = new Topology(800,800);
                 tp.setCommunicationRange(60);
                 tp.setDefaultNodeModel(Robot.class);
-                //JViewer jv = new JViewer(tp);
                 Node firstRobot = null;
 
                 switch (type) {
@@ -79,8 +71,13 @@ public class Simulator {
                     case 5 :
                         config5(algo);
                         break;
+                    case 6 :
+                        config6(algo);
+                        break;
                 }
+
                 switch (firstChoice){
+
                     case 0 : //Random choice
                         Random r = new Random();
                         firstRobot = tp.getNodes().get(r.nextInt(tp.getNodes().size()));
@@ -136,35 +133,21 @@ public class Simulator {
                     a.algo1((Robot)firstRobot);
                 }
 
-                long timer2 = System.currentTimeMillis();
                 tp.start();
                 int timer = tp.getTime();
-                System.out.println("nbRobots : "+tabSizes[s]+ " iteration : "+(i+1));
+                System.out.println("nbRobots : "+tabSizes[s]+ " iteration : "+(i+1)+" en cours...");
                 while(!finish()){
                 }
-                System.out.println(System.currentTimeMillis() - timer2);
                 System.out.println("time : "+(tp.getTime()-timer));
                 result[s][i] = (tp.getTime()-timer);
-                //writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(tp.getTime()-timer)+"\n");
                 tp.pause();
-            /*
-            for (Node node : tp.getNodes()){
-                //((Robot) node).reset();
-                tp.removeNode(node);
-            }*/
                 tp.clear();
-
             }
         }
 
-
-
     }
 
-    //type = 0 on faite la moyenne
-    //type = 1 on prend le temps le plus rapide
-    //type = 2 on prend le temps le plus long
-
+//Fonction pour écrire toutes les datas obtenues dans un fichier.
     private void writeResult(){
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -200,7 +183,6 @@ public class Simulator {
     }
 
     private void generateRandom(int nbRobots, int algo) { //nbRobots placés au hasard
-        System.out.println("nb : "+nbRobots+" algo : "+ algo);
         int width = tp.getWidth();
         int height = tp.getHeight();
         Random r  = new Random(10);
@@ -283,9 +265,36 @@ public class Simulator {
             }
         }
 
-
-        //tp.addNode(width-10, height-10, new Robot());
         tp.addNode(width/2, height/2, new Robot(algo));
+    }
+
+    private void config6(int algo) { //4 groupements de robots aux angles de la map
+        int width = tp.getWidth();
+        int height = tp.getHeight();
+
+        for(int i=50; i<width-(width-200); i=i+(width/20)){
+            for(int j=50; j<height-(height-200); j=j+(height/20)) {
+                tp.addNode(i, j, new Robot(algo));
+            }
+        }
+
+        for(int i=width-200; i<width; i=i+(width/20)){
+            for(int j=height-200; j<height; j=j+(height/20)) {
+                tp.addNode(i, j, new Robot(algo));
+            }
+        }
+
+        for(int i=width-200; i<width; i=i+(width/20)){
+            for(int j=50; j<height-(height-200); j=j+(height/20)) {
+                tp.addNode(i, j, new Robot(algo));
+            }
+        }
+
+        for(int i=50; i<width-(width-200); i=i+(width/20)){
+            for(int j=height-200; j<height; j=j+(height/20)) {
+                tp.addNode(i, j, new Robot(algo));
+            }
+        }
     }
 
     private boolean finish() {

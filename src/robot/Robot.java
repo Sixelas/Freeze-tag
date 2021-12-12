@@ -9,19 +9,21 @@ import robot.algos.Algorithms;
 
 public class Robot extends Node {
 
-    private double speed;
     private boolean awake = false;
-    private Point dest;
-    private Robot cible;
-    private Robot source;
-
-    private Point sourcePoint;
     private boolean arrive = false;
-    public boolean forRandom = true;
     public boolean choice = false;
+    private double speed;
+    public boolean forRandom = true;
+    public boolean lock = false;
+    public boolean lock2 = false;
+
+    private Robot cible;
+    private Point dest;
+    private Robot source;
+    private Point sourcePoint;
+
     public Algorithms algo;
     public int a;
-    public boolean lock = false;
 
 
     public Robot(){
@@ -29,6 +31,7 @@ public class Robot extends Node {
         setIconSize((int)(getIconSize()*1.5));
         speed = 3;
     }
+
     public Robot(int algo){
         setIcon(Icons.ROBOT);
         setIconSize((int)(getIconSize()*1.5));
@@ -79,22 +82,18 @@ public class Robot extends Node {
 
     @Override
     public void onStart() {
-        //super.onStart();
-        //speed =
+
         this.source = this;
         algo = new Algorithms(super.getTopology());
-        //System.out.println("speed : "+speed);
+
     }
 
     @Override
     public void onClock() {
-        //super.onClock();
-        //isEnd();
-        if(awake && !lock){
-            //System.out.println("id : "+this.getID()+" dest : "+dest);
+
+        if(awake && !lock && !lock2){
             if(!(dest==null)){
                 if (distance(dest) > speed) {
-                    //System.out.println("Coucou id : "+this.getID()+" dest : "+dest);
                     setDirection(dest);
                     move(speed);
                 }else{
@@ -103,12 +102,18 @@ public class Robot extends Node {
                         arrive();
                     }else{
                         arrive = false;
-                        searchTarget();
+                        if(!searchTarget() && (a!= 5)){
+                            lock2 = true;
+                            setColor(new Color(Color.RED));
+                            setIconSize(15);
+                        }
                     }
                 }
             }
         }else if(awake && lock){
-            searchTarget();
+            if(!lock2){
+                searchTarget();
+            }
         }
 
     }
@@ -131,56 +136,51 @@ public class Robot extends Node {
 
     private void arrive() { //Quand on est arrivé sur le robot cible, on lui envoie un message pour le réveiller.
         send(cible, new Message(null,"DEBOUT"));
-        //System.out.println("arrivé");
         arrive = true;
     }
 
     @Override
     public void onSelection() {
-        //setIcon(Icons.STATION);
+
         algo = new Algorithms(super.getTopology());
         setIconSize(25);
         setColor(new Color(Color.CYAN));
         super.onSelection();
         awake = true;
         this.source = this;
-        if(searchTarget()){
-            //System.out.println("Cible : "+ cible);
-        }else{
-            //super.getTopology().pause();
-            //System.out.println("FINI, time = "+ super.getTime());
+        searchTarget();
 
-        }
     }
 
     @Override
     public void onMessage(Message message) {
-        //super.onMessage(message);
-        //System.out.println("recu");
+
         if(message.getFlag().equals("DEBOUT")){
             awake = true;
             setIconSize(25);
             setColor(new Color(Color.CYAN));
-            //System.out.println("recu");
-            if(searchTarget()){
-                //System.out.println("Cible : "+ cible);
-            }else{
-                //super.getTopology().pause();
-                //System.out.println("FINI, time = "+ super.getTime());
+
+            if(!searchTarget()){
+                lock2 = true;
+                lock = true;
+                setColor(new Color(Color.RED));
+                setIconSize(15);
             }
         }
     }
 
-    public boolean searchTarget() { // Cherche un robot à réveiller
-        if(lock){
+    public boolean searchTarget() { // Cherche un robot à réveiller, retourne false si il n'y a plus de robots à réveiller.
 
-            boolean res = algo.algo4(this);
+        if(lock){ //Ne s'applique que si on a choisi l'algo5.
+            boolean res = algo.algo3(this); // En fonction des configs (par exemple config6) il est plus rentable de choisir algo4 ici !
             if(res){
                 setColor(new Color(Color.GREEN));
+                setIconSize(25);
                 lock = false;
             }
             return res;
         }
+
         if(a == 1){
             return algo.algo1(this);
         }else if (a == 2){
