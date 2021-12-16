@@ -37,17 +37,18 @@ Un robot peut également choisir comme cible un robot déjà ciblé (ORANGE) par
 ## Comment exécuter une topologie ?
 ###Mode graphique avec Map :
 1. Dans le main de Map.java, il faut commenter le potentiel objet Simulator existant.
-2. On crée un new Map(int type, int firstChoice, int algo, int nbRobots) avec comme paramètres :
+2. On crée un new Map(Topology tp, int type, int firstChoice, int algo, int nbRobots, int nbBlocs) avec comme paramètres :
 - type : de 0 à 5 -> choix de la configuration à lancer.
 - firstChoice : choix du premier robot à réveiller. 0=random, 1=Premier robot (id=0), 2=Meilleur choix (robot avec le meilleur degré), 3=choix libre (ctrl+clic puis start execution manuellement).
 - algo : choix de l'algo (de 1 à 5)
 - nbRobots : nombre de Robots sur la map, seulement pour la map avec placement random.
+- nbBlocs : nombre de blocs de robots en largeur (donc nbBlocs*nbBlocs au total) si on choisit config7.
 3. Une fois fini, le temps s'affiche dans le terminal.
 
 ###Mode Simulator :
 1. Dans le main de Map.java, il faut commenter le potential objet Map existant.
-2. On crée un objet new Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes) avec comme paramètres :
-- type, algo : comme pour Map
+2. On crée un objet new Simulator(int type, int algo, int nbRep, int nbBlocs int firstChoice, int[] tabSizes) avec comme paramètres :
+- type, algo, nbBlocs : comme pour Map.
 - nbRep : le nombre de répétitions pour une configuration de topologie (pour faire une moyenne/tester plusieurs combinaisons)
 - firstChoice : 0=random, 2=Meilleur choix (robot avec le meilleur degré), 2=Pire choix (Robot de degré le plus petit).
 - tabSizes : tableau contenant plusieurs quantités de robots à tester. Par exemple [10,20,50,100] pour 4 topologies avec 10 puis 20 puis 50 puis 100 Robots. Ne fonctionne que si le type de topologie est Random. Chaque valeur dans tabSizes sera lancé nbRep fois, ce qui peut être pratique quand on veut faire une moyenne en prenant le choix du premier robot aléatoirement.

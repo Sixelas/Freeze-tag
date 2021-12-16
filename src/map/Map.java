@@ -3,16 +3,19 @@ package map;
 import io.jbotsim.core.Color;
 import io.jbotsim.core.Node;
 import io.jbotsim.core.Topology;
+import io.jbotsim.core.event.ClockListener;
 import io.jbotsim.ui.JViewer;
 import io.jbotsim.ui.painting.BackgroundPainter;
 import io.jbotsim.ui.painting.UIComponent;
 import robot.Robot;
 import robot.algos.Algorithms;
+
+import java.awt.*;
 import java.util.Random;
 
-public class Map implements BackgroundPainter{
+public class Map implements BackgroundPainter, ClockListener {
 
-    private Topology tp;
+    Topology tp;
     int aa;
 
     public static void main(String[] args) {
@@ -20,48 +23,21 @@ public class Map implements BackgroundPainter{
         // ICI on choisit entre version Map et version Simulator.
         // Voir dans le README pour comprendre comment lancer une topologie.
 
-        //new Map(5, 7, 5,100);
-        //new Map(0, 0, 5,500);
-        //15,95
+        new Map(new Topology(800,800),9, 7, 5,500, 4);
 
-        new Simulator(0,5,5,0, new int[]{15,95});
-        //new Simulator(6,5,10,0, new int[]{10});
+        //new Simulator(9,5,30,6,0, new int[]{100});
 
     }
 
-    public Map(int type, int firstChoice, int algo, int nbRobots){
-
-        tp = new Topology(800,800);
-        tp.setCommunicationRange(60);
-        JViewer jv = new JViewer(tp);
+    public Map(Topology tp, int type, int firstChoice, int algo, int nbRobots, int nbBlocs){
+        this.tp = tp;
+        //tp = new Topology(800,800);
+        this.tp.setCommunicationRange(60);
+        JViewer jv = new JViewer(this.tp);
         jv.getJTopology().setDefaultBackgroundPainter(this);
-        tp.setNodeModel("robot", Robot.class);
+        this.tp.setNodeModel("robot", Robot.class);
         aa = algo;
-
-        switch (type) {
-            case 1 : //On lance la config1
-                config1();
-                break;
-            case 2 : //On lance la config2
-                config2();
-                break;
-            case 3 : //On lance la config3
-                config3();
-                break;
-            case 4 : //On lance la config4
-                config4();
-                break;
-            case 5 : //On lance la config5
-                config5();
-                break;
-            case 6 :
-                config6();
-                break;
-            default: //Génère des robots aléatoirement
-                generateRobots(nbRobots);
-                break;
-        }
-
+        new Configurations(this.tp, type,algo, nbRobots, nbBlocs);
         chooseFirst(firstChoice, algo);
 
     }
@@ -153,22 +129,15 @@ public class Map implements BackgroundPainter{
                     ((Robot) n).a = aa;
                 }
             }
-            int timer = tp.getTime();
-            while(!finish()){
-            }
-            System.out.println("time : "+(tp.getTime()-timer));
+            tp.addClockListener(this);
             return;
         }
 
-        int timer = tp.getTime();
+        tp.addClockListener(this);
         tp.start();
-        while(!finish()){
-        }
-        System.out.println("time : "+(tp.getTime()-timer));
-
     }
 
-    // Cette fonction détecte quand tous les robots sont réveillés.
+    // Cette fonction détecte quand tous les robots sont réveillés. Elle a été remplacée par onClock() !
     private boolean finish() {
         if(aa == 5){
             int cpt=0;
@@ -202,126 +171,29 @@ public class Map implements BackgroundPainter{
 
     }
 
-    private void generateRobots(int nbRobots) { //nbRobots Robots placés au hasard
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-        Random r  = new Random(10);
-        for(int i=0; i<nbRobots; i++){
-
-            tp.addNode(10+r.nextInt(width-20), 10+r.nextInt(height-20), new Robot(aa));
-        }
-    }
-
-    private void config1() { //Quadrillage de robots
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-50; i=i+(width/10)){
-            for(int j=50; j<height-50; j=j+(height/10)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-    }
-
-    private void config2() { //Quadrillage de robots (pas bcp de robots)
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-50; i=i+(width/5)){
-            for(int j=50; j<height-50; j=j+(height/5)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-    }
-
-    private void config3() { //Quadrillage de robots (bcp de robots)
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-50; i=i+(width/20)){
-            for(int j=50; j<height-50; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-    }
-
-    private void config4() { //Config théorique pour prouver qu'il faut choisir en premier un robot avec pleins de voisins.
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-300; i=i+(width/20)){
-            for(int j=50; j<height-300; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-        tp.addNode(width-10, height-10, new Robot(aa));
-        tp.addNode(10, height-10, new Robot(aa));
-    }
-
-    private void config5() { //Config théorique pour prouver qu'il faut choisir en premier un robot avec pleins de voisins
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-(width-200); i=i+(width/20)){
-            for(int j=50; j<height-(height-200); j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=width-200; i<width; i=i+(width/20)){
-            for(int j=height-200; j<height; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=width-200; i<width; i=i+(width/20)){
-            for(int j=50; j<height-(height-200); j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=50; i<width-(width-200); i=i+(width/20)){
-            for(int j=height-200; j<height; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        tp.addNode(width/2, height/2, new Robot(aa));
-    }
-
-    private void config6() { //4 groupements de robots aux angles de la map
-        int width = tp.getWidth();
-        int height = tp.getHeight();
-
-        for(int i=50; i<width-(width-200); i=i+(width/20)){
-            for(int j=50; j<height-(height-200); j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=width-200; i<width; i=i+(width/20)){
-            for(int j=height-200; j<height; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=width-200; i<width; i=i+(width/20)){
-            for(int j=50; j<height-(height-200); j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-
-        for(int i=50; i<width-(width-200); i=i+(width/20)){
-            for(int j=height-200; j<height; j=j+(height/20)) {
-                tp.addNode(i, j, new Robot(aa));
-            }
-        }
-    }
-
-
     //Pour ajouter un fond ? Juste du visuel sinon inutile.
     @Override
     public void paintBackground(UIComponent uiComponent, Topology topology) {
+        /** //A COMPRENDRE POUR PLUS TARD
+        Graphics2D g2d = (Graphics2D) uiComponent.getComponent();
+        g2d.drawImage();
+         **/
+    }
 
+    @Override
+    public void onClock() {
+        int cpt=0;
+        for(Node n : tp.getNodes()){
+            if(n instanceof Robot){
+                if( ((Robot) n).isAwake() ){
+                    cpt++;
+                }
+            }
+        }
+        if(cpt == tp.getNodes().size()){
+            tp.pause();
+            System.out.println("Temps : "+tp.getTime());
+            System.exit(0);
+        }
     }
 }

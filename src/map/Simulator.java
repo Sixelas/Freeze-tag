@@ -3,6 +3,7 @@ package map;
 import io.jbotsim.core.Color;
 import io.jbotsim.core.Node;
 import io.jbotsim.core.Topology;
+import io.jbotsim.ui.JViewer;
 import robot.Robot;
 import robot.algos.Algorithms;
 
@@ -23,10 +24,11 @@ public class Simulator {
     private int nbRep;
     private int firstChoice;
     private int[] tabSizes;
+    private int nbBlocs;
 
     public static PrintWriter writer;
 
-    public Simulator(int type, int algo, int nbRep, int firstChoice, int[] tabSizes){
+    public Simulator(int type, int algo, int nbRep, int nbBlocs, int firstChoice, int[] tabSizes){
 
         this.result = new long[tabSizes.length][nbRep];
         this.type = type;
@@ -34,6 +36,7 @@ public class Simulator {
         this.nbRep = nbRep;
         this.firstChoice = firstChoice;
         this.tabSizes = tabSizes;
+        this.nbBlocs = nbBlocs;
 
         launchSimulation();
         writeResult();
@@ -47,35 +50,12 @@ public class Simulator {
 
             for(int i = 0; i<nbRep; i++){
 
-                tp = new Topology(800,800);
+                tp = new Topology(2000,2000);
                 tp.setCommunicationRange(60);
                 tp.setDefaultNodeModel(Robot.class);
+                //JViewer jv = new JViewer(tp);
                 Node firstRobot = null;
-
-                switch (type) {
-                    case 0 :
-                        generateRandom(tabSizes[s], algo);
-                        break;
-                    case 1 :
-                        config1(algo);
-                        break;
-                    case 2 :
-                        config2(algo);
-                        break;
-                    case 3 :
-                        config3(algo);
-                        break;
-                    case 4 :
-                        config4(algo);
-                        break;
-                    case 5 :
-                        config5(algo);
-                        break;
-                    case 6 :
-                        config6(algo);
-                        break;
-                }
-
+                new Configurations(tp,type,algo,tabSizes[s],nbBlocs);
                 switch (firstChoice){
 
                     case 0 : //Random choice
@@ -181,7 +161,7 @@ public class Simulator {
         writer.flush();
         writer.close();
     }
-
+/**
     private void generateRandom(int nbRobots, int algo) { //nbRobots placés au hasard
         int width = tp.getWidth();
         int height = tp.getHeight();
@@ -296,7 +276,7 @@ public class Simulator {
             }
         }
     }
-
+**/
     private boolean finish() {
         for(Node n : tp.getNodes()){
             if(n instanceof Robot){
