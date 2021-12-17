@@ -23,7 +23,7 @@ public class Map implements BackgroundPainter, ClockListener {
         // ICI on choisit entre version Map et version Simulator.
         // Voir dans le README pour comprendre comment lancer une topologie.
 
-        new Map(new Topology(800,800),9, 7, 5,500, 4);
+        new Map(new Topology(800,800),5, 7, 5,800, 4);
 
         //new Simulator(9,5,30,6,0, new int[]{100});
 

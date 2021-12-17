@@ -121,3 +121,20 @@ set datafile missing NaN
 #set output "WorstTime_Algo5opti_RandomMap-RandomChoice.pdf"
 #set title "WorstTime on RandomMap with RandomChoice"
 #plot "0-5-0_b.txt" using 4:($6==2?$5:1/0) title "algo5+3" with linespoints pointtype 7 pointsize 0.5, "0-5-0_b_algo4.txt" using 4:($6==2?$5:1/0) title "algo5+4" with linespoints pointtype 7 pointsize 0.5
+
+################## 6 ##################
+
+# Pour comparer l'algo 5+4 et 5+4 selon leurs temps (moyenne | meilleur | pire) sur la config9 :
+
+#set key outside
+#set ylabel "time"
+#set border 1
+#set ytics nomirror
+#unset xtics
+#set grid
+
+
+#Moyenne resType = 0 :
+#set output "AllTimes_Algos5_Config9-RandomChoice.pdf"
+#set title "All Times on Config9 with RandomChoice"
+#plot "9-5-0_algo5+4.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 MoyTime", "9-5-0_algo5+3.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 MoyTime", "9-5-0_algo5+4.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 BestTime", "9-5-0_algo5+3.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 BestTime", "9-5-0_algo5+4.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 WorstTime", "9-5-0_algo5+3.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 WorstTime"

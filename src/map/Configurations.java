@@ -211,7 +211,7 @@ public class Configurations {
         }
     }
 
-    public void config9(int nbBlocs) {  // nbBlocs*nbBlocs groupements en largeur*hauteur de robots. Pour cchaque bloc on peut avoir aléatoirement entre 1 et 40 robots.
+    public void config9(int nbBlocs) {  // nbBlocs*nbBlocs groupements en largeur*hauteur de robots. Pour cchaque bloc on peut avoir aléatoirement entre 1 et 80 robots.
         int width = tp.getWidth();      // on remplit pas tous les blocs
         int height = tp.getHeight();
 

@@ -7,6 +7,8 @@ Projet AlgoMob de Master2
     Classe qui contient le main, on run le code ici. 
 - src.map.**Simulator** :\
     Classe pour créer des simulations (sans la fenêtre graphique).
+- src.map.**Configurations** :\
+  Classe Configurations, contient les méthodes permettant de créer des configuration.
 - src.robot.**Robot** :\
     Classe Robot, les stars de ce projet.
 - src.robot.**Algorithms** :\
