@@ -224,15 +224,19 @@ public class Algorithms {
             if( (!(r.isAwake())) && (!(r.isChoice())) ){
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northWestSector.add(r);
+                    r.setColor(new Color(Color.BLACK));
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northEastSector.add(r);
+                    r.setColor(new Color(Color.RED));
                 }
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southWestSector.add(r);
+                    r.setColor(new Color(Color.BLUE));
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southEastSector.add(r);
+                    r.setColor(new Color(Color.GREEN));
                 }
             }
         }
@@ -264,8 +268,8 @@ public class Algorithms {
             }
             if (northEastSector.contains(r)){
                 for (Robot rne : northEastSector){
-                    if (northWestSector.size() / rne.distance(start) > ratio){
-                        ratio =  northWestSector.size() / rne.distance(start);
+                    if (northEastSector.size() / rne.distance(start) > ratio){
+                        ratio =  northEastSector.size() / rne.distance(start);
                         target = rne;
                     }
                 }
@@ -346,6 +350,9 @@ public class Algorithms {
                 }
             }
 
+        }
+        if( (target == null) && northWestSector.isEmpty() && northEastSector.isEmpty() && southWestSector.isEmpty() && southEastSector.isEmpty()){
+            return true;
         }
 
         if(target == null){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.

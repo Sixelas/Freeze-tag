@@ -1,4 +1,4 @@
 #type  algo  firstChoice  nbRobots  time  resType
-9 5 0 100 751 0
-9 5 0 100 548 1
-9 5 0 100 949 2
+9 5 0 100 776 0
+9 5 0 100 617 1
+9 5 0 100 933 2

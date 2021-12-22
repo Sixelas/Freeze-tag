@@ -191,7 +191,7 @@ public class Configurations {
         }
     }
 
-    public void config8(int nbBlocs) { // nbBlocs*nbBlocs groupements en largeur*hauteur de robots. Pour cchaque bloc on peut avoir aléatoirement entre 1 et 40 robots.
+    public void config8(int nbBlocs) { // nbBlocs*nbBlocs groupements en largeur*hauteur de robots. Pour chaque bloc on peut avoir aléatoirement entre 1 et 40 robots.
         int width = tp.getWidth();
         int height = tp.getHeight();
 
@@ -200,8 +200,10 @@ public class Configurations {
                 int ir = x*(width/(nbBlocs)) - (width/(nbBlocs))  ;
                 int jr = y*(height/(nbBlocs))-(height/(nbBlocs));
                 Random r = new Random();
+                int limitRand = 40+r.nextInt(140);
+                System.out.println("nbRobots ="+ (limitRand-1));
                 //System.out.println("carre  : ["+ir+","+jr+"] "+ "["+(x*(width/(nbBlocs)))+","+(y*(height/(nbBlocs)))+"]");
-                for(int i=0;i<(1+r.nextInt(40)-1); i++){
+                for(int i=0;i<limitRand; i++){
                     int rx = (ir+50)+r.nextInt((x*(width/(nbBlocs)))-(ir+60));
                     int ry = (jr+50)+r.nextInt((y*(height/(nbBlocs)))-(jr+60));
                     //System.out.println("rx : "+rx+", ry : "+ry);

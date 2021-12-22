@@ -19,7 +19,7 @@ public class Simulator {
 
     private Topology tp;
     public long[][] result;
-    private int type;
+    private int config;
     private int algo;
     private int nbRep;
     private int firstChoice;
@@ -28,10 +28,10 @@ public class Simulator {
 
     public static PrintWriter writer;
 
-    public Simulator(int type, int algo, int nbRep, int nbBlocs, int firstChoice, int[] tabSizes){
+    public Simulator(int config, int algo, int nbRep, int nbBlocs, int firstChoice, int[] tabSizes){
 
         this.result = new long[tabSizes.length][nbRep];
-        this.type = type;
+        this.config = config;
         this.algo = algo;
         this.nbRep = nbRep;
         this.firstChoice = firstChoice;
@@ -50,12 +50,12 @@ public class Simulator {
 
             for(int i = 0; i<nbRep; i++){
 
-                tp = new Topology(2000,2000);
+                tp = new Topology(800,800);
                 tp.setCommunicationRange(60);
                 tp.setDefaultNodeModel(Robot.class);
                 //JViewer jv = new JViewer(tp);
                 Node firstRobot = null;
-                new Configurations(tp,type,algo,tabSizes[s],nbBlocs);
+                new Configurations(tp,config,algo,tabSizes[s],nbBlocs);
                 switch (firstChoice){
 
                     case 0 : //Random choice
@@ -138,11 +138,11 @@ public class Simulator {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
             Path currentRelativePath = Paths.get("");
             String s = currentRelativePath.toAbsolutePath().toString();
-            writer = new PrintWriter(new File(s+File.separator+"simulations"+File.separator+type+"-"+algo+"-"+firstChoice+"_"+dtf.format(java.time.LocalDateTime.now())+".txt"));
+            writer = new PrintWriter(new File(s+File.separator+"simulations"+File.separator+config+"-"+algo+"-"+firstChoice+"_"+dtf.format(java.time.LocalDateTime.now())+".txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        writer.write("#type  algo  firstChoice  nbRobots  time  resType\n");
+        writer.write("#config  algo  firstChoice  nbRobots  time  resType\n");
 
         for(int s = 0; s<tabSizes.length; s++){
             long pire = -1;
@@ -158,9 +158,9 @@ public class Simulator {
                     meilleur = result[s][t];
                 }
             }
-            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(moyenne/nbRep)+" "+0+"\n");
-            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +meilleur+" "+1+"\n");
-            writer.write(type +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +pire+" "+2+"\n");
+            writer.write(config +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +(moyenne/nbRep)+" "+0+"\n");
+            writer.write(config +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +meilleur+" "+1+"\n");
+            writer.write(config +" "+ algo +" "+ firstChoice+" " + tabSizes[s] +" " +pire+" "+2+"\n");
         }
 
         writer.flush();

@@ -23,13 +23,15 @@ public class Map implements BackgroundPainter, ClockListener {
         // ICI on choisit entre version Map et version Simulator.
         // Voir dans le README pour comprendre comment lancer une topologie.
 
-        //new Map(new Topology(800,800),5, 9, 8,800, 4);
+        new Map(new Topology(800,800),0, 8, 8,10, 2);
 
-        new Simulator(9,5,30,6,0, new int[]{100});
+        //new Simulator(0,8,10,6,0, new int[]{10,20,40,80,160,320});
+        //new Simulator(0,5,5,6,0, new int[]{5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,100,160,200,300,320,400,500,600,700,800});
+        //new Simulator(9,5,30,8,0, new int[]{100});
 
     }
 
-    public Map(Topology tp, int type, int firstChoice, int algo, int nbRobots, int nbBlocs){
+    public Map(Topology tp, int config, int firstChoice, int algo, int nbRobots, int nbBlocs){
         this.tp = tp;
         //tp = new Topology(800,800);
         this.tp.setCommunicationRange(60);
@@ -37,7 +39,7 @@ public class Map implements BackgroundPainter, ClockListener {
         jv.getJTopology().setDefaultBackgroundPainter(this);
         this.tp.setNodeModel("robot", Robot.class);
         aa = algo;
-        new Configurations(this.tp, type,algo, nbRobots, nbBlocs);
+        new Configurations(this.tp, config, algo, nbRobots, nbBlocs);
         chooseFirst(firstChoice, algo);
 
     }
