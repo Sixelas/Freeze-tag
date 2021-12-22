@@ -23,9 +23,9 @@ public class Map implements BackgroundPainter, ClockListener {
         // ICI on choisit entre version Map et version Simulator.
         // Voir dans le README pour comprendre comment lancer une topologie.
 
-        new Map(new Topology(800,800),5, 7, 5,800, 4);
+        //new Map(new Topology(800,800),5, 9, 8,800, 4);
 
-        //new Simulator(9,5,30,6,0, new int[]{100});
+        new Simulator(9,5,30,6,0, new int[]{100});
 
     }
 
@@ -63,7 +63,13 @@ public class Map implements BackgroundPainter, ClockListener {
             }else if(algo == 4) {
                 a.algo4((Robot)z);
             }else if(algo == 5) {
-                a.algo5((Robot)z);
+                a.algo5((Robot) z);
+            }else if(algo == 6) {
+                a.algo6((Robot)z);
+            }else if(algo == 7) {
+                a.algo7((Robot)z);
+            }else if(algo == 8) {
+                a.algo8((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -86,6 +92,12 @@ public class Map implements BackgroundPainter, ClockListener {
                 a.algo4((Robot)z);
             }else if(algo == 5) {
                 a.algo5((Robot)z);
+            }else if(algo == 6) {
+                a.algo6((Robot)z);
+            }else if(algo == 7) {
+                a.algo7((Robot)z);
+            }else if(algo == 8) {
+                a.algo8((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -114,6 +126,12 @@ public class Map implements BackgroundPainter, ClockListener {
                 a.algo4((Robot)z);
             }else if(algo == 5) {
                 a.algo5((Robot)z);
+            }else if(algo == 6) {
+                a.algo6((Robot)z);
+            }else if(algo == 7) {
+                a.algo7((Robot)z);
+            }else if(algo == 8) {
+                a.algo8((Robot)z);
             }else{
                 a.algo1((Robot)z);
                 aa = 1;
@@ -121,7 +139,7 @@ public class Map implements BackgroundPainter, ClockListener {
 
         }else{ //Choix libre
             System.out.println("choisir un robot avec ctrl+clic puis lancer avec start execution !");
-            if((algo < 1) || (algo > 5) ){
+            if((algo < 1) || (algo > 8) ){
                 aa = 1;
             }
             for(Node n : tp.getNodes()){

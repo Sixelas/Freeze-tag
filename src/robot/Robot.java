@@ -191,6 +191,12 @@ public class Robot extends Node {
             return algo.algo4(this);
         }else if (a == 5) {
             return algo.algo5(this);
+        }else if (a == 6) {
+            return algo.algo6(this);
+        }else if (a == 7) {
+            return algo.algo7(this);
+        } else if (a == 8) {
+            return algo.algo8(this);
         }else{
             return algo.algo1(this);
         }

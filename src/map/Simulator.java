@@ -109,6 +109,11 @@ public class Simulator {
                     a.algo4((Robot)firstRobot);
                 }else if(algo == 5) {
                     a.algo5((Robot)firstRobot);
+                }else if(algo == 6) {
+                    a.algo6((Robot)firstRobot);
+                }
+                else if(algo == 7) {
+                    a.algo7((Robot)firstRobot);
                 }else{
                     a.algo1((Robot)firstRobot);
                 }

@@ -183,5 +183,184 @@ public class Algorithms {
         return true;
     }
 
+    //Un robot choisit un robot à réveiller qui maximise le rapport entre le nombre de robots présents dans un secteur et la distance pour arriver à ce robot.
+    //
+    public boolean algo6(Robot start){
+        double bestDist = Integer.MAX_VALUE;
+        int bestDegree = -1;
+        Robot target = null;
+        for(Robot r : robots){
+            if( (!(r.isAwake())) && (!(r.isChoice())) ){
+                if(bestDegree / bestDist < r.getNeighbors().size() / r.distance(start)){
+                    bestDegree = r.getNeighbors().size();
+                    bestDist = r.distance(start);
+                    target = r;
+                }
+            }
+        }
+
+        if(bestDegree == -1 || bestDist == Integer.MAX_VALUE){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.
+            return false;
+        }
+
+        start.setCible(target);
+        target.setChoice(true);
+        target.setColor(new Color(Color.ORANGE));
+        target.setCommunicationRange(0);
+        target.setSource(start);
+        target.setSourcePoint(new Point(start.getX(), start.getY()));
+        start.setDest(new Point(target.getX(), target.getY()));
+        return true;
+    }
+
+    public boolean algo7(Robot start){
+        Robot target = null;
+        double ratio = 0;
+        List<Robot> northWestSector = new ArrayList<>();
+        List<Robot> southWestSector = new ArrayList<>();
+        List<Robot> northEastSector = new ArrayList<>();
+        List<Robot> southEastSector = new ArrayList<>();
+        for(Robot r : robots){
+            if( (!(r.isAwake())) && (!(r.isChoice())) ){
+                if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
+                    northWestSector.add(r);
+                }
+                if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
+                    northEastSector.add(r);
+                }
+                if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
+                    southWestSector.add(r);
+                }
+                if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
+                    southEastSector.add(r);
+                }
+            }
+        }
+
+        for(Robot r : robots){
+            if (northWestSector.contains(r)){
+                for (Robot rnw : northWestSector){
+                    if (northWestSector.size() / rnw.distance(start) > ratio){
+                        ratio =  northWestSector.size() / rnw.distance(start);
+                        target = rnw;
+                    }
+                }
+            }
+            if (southWestSector.contains(r)){
+                for (Robot rsw : southWestSector){
+                    if (southWestSector.size() / rsw.distance(start) > ratio){
+                        ratio =  southWestSector.size() / rsw.distance(start);
+                        target = rsw;
+                    }
+                }
+            }
+            if (southEastSector.contains(r)){
+                for (Robot rse : southEastSector){
+                    if (southEastSector.size() / rse.distance(start) > ratio){
+                        ratio =  southEastSector.size() / rse.distance(start);
+                        target = rse;
+                    }
+                }
+            }
+            if (northEastSector.contains(r)){
+                for (Robot rne : northEastSector){
+                    if (northWestSector.size() / rne.distance(start) > ratio){
+                        ratio =  northWestSector.size() / rne.distance(start);
+                        target = rne;
+                    }
+                }
+            }
+
+        }
+
+        if(ratio == 0){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.
+            return false;
+        }
+
+        start.setCible(target);
+        target.setChoice(true);
+        target.setColor(new Color(Color.ORANGE));
+        target.setCommunicationRange(0);
+        target.setSource(start);
+        target.setSourcePoint(new Point(start.getX(), start.getY()));
+        start.setDest(new Point(target.getX(), target.getY()));
+        return true;
+    }
+
+    public boolean algo8(Robot start){
+        double bestDist = Integer.MAX_VALUE;
+        Random x = new Random();
+        int y = x.nextInt(4);
+        Robot target = null;
+        List<Robot> northWestSector = new ArrayList<>();
+        List<Robot> southWestSector = new ArrayList<>();
+        List<Robot> northEastSector = new ArrayList<>();
+        List<Robot> southEastSector = new ArrayList<>();
+        for(Robot r : robots){
+            if( (!(r.isAwake())) && (!(r.isChoice())) ){
+                if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
+                    northWestSector.add(r);
+                }
+                if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
+                    northEastSector.add(r);
+                }
+                if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
+                    southWestSector.add(r);
+                }
+                if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
+                    southEastSector.add(r);
+                }
+            }
+        }
+
+        if (y == 0){
+            for (Robot rnw : northWestSector){
+                if (bestDist>start.distance(rnw)){
+                    bestDist = start.distance(rnw);
+                    target = rnw;
+                }
+            }
+        }
+        if (y == 1){
+            for (Robot rne : northEastSector){
+                if (bestDist>start.distance(rne)){
+                    bestDist = start.distance(rne);
+                    target = rne;
+                }
+            }
+        }
+        if (y == 2){
+            for (Robot rsw : southWestSector){
+                if (bestDist>start.distance(rsw)){
+                    bestDist = start.distance(rsw);
+                    target = rsw;
+                }
+            }
+
+        }
+        if (y == 3){
+            for (Robot rse : southEastSector){
+                if (bestDist>start.distance(rse)){
+                    bestDist = start.distance(rse);
+                    target = rse;
+                }
+            }
+
+        }
+
+        if(target == null){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.
+            return false;
+        }
+
+        start.setCible(target);
+        target.setChoice(true);
+        target.setColor(new Color(Color.ORANGE));
+        target.setCommunicationRange(0);
+        target.setSource(start);
+        target.setSourcePoint(new Point(start.getX(), start.getY()));
+        start.setDest(new Point(target.getX(), target.getY()));
+        return true;
+    }
+
 
 }
