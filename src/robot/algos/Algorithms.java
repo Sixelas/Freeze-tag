@@ -294,7 +294,8 @@ public class Algorithms {
     public boolean algo8(Robot start){
         double bestDist = Integer.MAX_VALUE;
         Random x = new Random();
-        int y = x.nextInt(4);
+
+        List<Integer> sectors = new ArrayList<>();
         Robot target = null;
         List<Robot> northWestSector = new ArrayList<>();
         List<Robot> southWestSector = new ArrayList<>();
@@ -304,59 +305,64 @@ public class Algorithms {
             if( (!(r.isAwake())) && (!(r.isChoice())) ){
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northWestSector.add(r);
+                    sectors.add(0);
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northEastSector.add(r);
+                    sectors.add(1);
                 }
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southWestSector.add(r);
+                    sectors.add(2);
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southEastSector.add(r);
+                    sectors.add(3);
                 }
             }
         }
 
-        if (y == 0){
-            for (Robot rnw : northWestSector){
-                if (bestDist>start.distance(rnw)){
-                    bestDist = start.distance(rnw);
-                    target = rnw;
-                }
-            }
-        }
-        if (y == 1){
-            for (Robot rne : northEastSector){
-                if (bestDist>start.distance(rne)){
-                    bestDist = start.distance(rne);
-                    target = rne;
-                }
-            }
-        }
-        if (y == 2){
-            for (Robot rsw : southWestSector){
-                if (bestDist>start.distance(rsw)){
-                    bestDist = start.distance(rsw);
-                    target = rsw;
-                }
-            }
-
-        }
-        if (y == 3){
-            for (Robot rse : southEastSector){
-                if (bestDist>start.distance(rse)){
-                    bestDist = start.distance(rse);
-                    target = rse;
-                }
-            }
-
-        }
-        if( (target == null) && northWestSector.isEmpty() && northEastSector.isEmpty() && southWestSector.isEmpty() && southEastSector.isEmpty()){
-            return true;
-        }
-
-        if(target == null){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.
+        if (sectors.isEmpty()){
             return false;
+        }
+
+        int y = sectors.get(x.nextInt(sectors.size()));
+
+        switch(y){
+            case 0 :
+                for (Robot rnw : northWestSector) {
+                    if (bestDist > start.distance(rnw)) {
+                        bestDist = start.distance(rnw);
+                        target = rnw;
+                    }
+                }
+                break;
+            case 1 :
+                for (Robot rne : northEastSector) {
+                    if (bestDist > start.distance(rne)) {
+                        bestDist = start.distance(rne);
+                        target = rne;
+                    }
+                }
+                break;
+            case 2 :
+                for (Robot rsw : southWestSector) {
+                    if (bestDist > start.distance(rsw)) {
+                        bestDist = start.distance(rsw);
+                        target = rsw;
+                    }
+                }
+                break;
+            case 3 :
+                for (Robot rse : southEastSector){
+                    if (bestDist>start.distance(rse)){
+                        bestDist = start.distance(rse);
+                        target = rse;
+                    }
+                }
+                break;
+            default :
+                break;
         }
 
         start.setCible(target);
