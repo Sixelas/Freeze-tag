@@ -53,7 +53,7 @@ public class Simulator {
                 tp = new Topology(800,800);
                 tp.setCommunicationRange(60);
                 tp.setDefaultNodeModel(Robot.class);
-                //JViewer jv = new JViewer(tp);
+                //JViewer jv = new JViewer(tp); //Si on veut voir la progression en visuel, attention c'est moche ça crée pleins de fenêtres superposées.
                 Node firstRobot = null;
                 new Configurations(tp,config,algo,tabSizes[s],nbBlocs);
                 switch (firstChoice){

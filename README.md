@@ -50,11 +50,8 @@ Projet AlgoMob de Master2
 - nbBlocs : nombre de blocs de robots en largeur (donc nbBlocs*nbBlocs au total) si on choisit config7, 8 ou 9.
 3. Une fois fini, le temps s'affiche dans le terminal.
 
-Quelques exemples de lancement :
-new Map(new Topology(800,800),5, 9, 8, 10, 4);
-new Map(new Topology(800,800),9, 9, 5, 10, 4);
-
 ###Mode Simulator :
+Attention : la fonction writeResult ne fonctionne pas sur windows à cause de la différence de paths/gestion des noms de fichiers avec Linux. Il faut la commenter.
 1. Dans le main de Map.java, il faut commenter le potential objet Map existant.
 2. On crée un objet new Simulator(int config, int algo, int nbRep, int nbBlocs, int firstChoice, int[] tabSizes) avec comme paramètres :
 - config, algo, nbBlocs : comme pour Map.

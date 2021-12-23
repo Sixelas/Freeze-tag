@@ -224,19 +224,19 @@ public class Algorithms {
             if( (!(r.isAwake())) && (!(r.isChoice())) ){
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northWestSector.add(r);
-                    r.setColor(new Color(Color.BLACK));
+                    r.setColor(new Color(Color.BLACK)); //A commenter si on veut plus voir les couleurs des secteurs
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() > tp.getHeight() / 2){
                     northEastSector.add(r);
-                    r.setColor(new Color(Color.RED));
+                    r.setColor(new Color(Color.PINK)); //A commenter si on veut plus voir les couleurs des secteurs
                 }
                 if (r.getLocation().getX() <= tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southWestSector.add(r);
-                    r.setColor(new Color(Color.BLUE));
+                    r.setColor(new Color(Color.BLUE)); //A commenter si on veut plus voir les couleurs des secteurs
                 }
                 if (r.getLocation().getX() > tp.getWidth() / 2 && r.getLocation().getY() <= tp.getHeight() / 2){
                     southEastSector.add(r);
-                    r.setColor(new Color(Color.GREEN));
+                    r.setColor(new Color(Color.MAGENTA)); //A commenter si on veut plus voir les couleurs des secteurs
                 }
             }
         }

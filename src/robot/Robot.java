@@ -172,7 +172,7 @@ public class Robot extends Node {
     public boolean searchTarget() { // Cherche un robot à réveiller, retourne false si il n'y a plus de robots à réveiller.
 
         if(lock){ //Ne s'applique que si on a choisi l'algo5.
-            boolean res = algo.algo4(this); // En fonction des configs (par exemple config6) il est plus rentable de choisir algo4 ici !
+            boolean res = algo.algo4(this); // Algorithme intermédiaire à choisir ici !
             if(res){
                 setColor(new Color(Color.GREEN));
                 setIconSize(25);
@@ -204,7 +204,7 @@ public class Robot extends Node {
 
     @Override
     public String toString() {
-        if(cible==null){
+        if(cible==null){ //Pour éviter un segfault quand on passe la souris sur un robot sans cible.
             return "Robot{" +
                     "ID=" + this.getID() +
                     ", speed=" + speed +

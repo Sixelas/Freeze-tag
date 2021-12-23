@@ -38,7 +38,7 @@ set datafile missing NaN
 #Moyenne resType = 0 :
 #set output "MoyTime_AllAlgorithms_RandomMap-RandomChoice.pdf"
 #set title "MoyTime on RandomMap with RandomChoice"
-#plot "0-1-0.txt" using 4:($6==0?$5:1/0) title "algo1" with linespoints pointtype 7 pointsize 0.5, "0-2-0.txt" using 4:($6==0?$5:1/0) title "algo2" with linespoints pointtype 7 pointsize 0.5, "0-3-0.txt" using 4:($6==0?$5:1/0) title "algo3" with linespoints pointtype 7 pointsize 0.5, "0-4-0.txt" using 4:($6==0?$5:1/0) title "algo4" with linespoints pointtype 7 pointsize 0.5, "0-5-0.txt" using 4:($6==0?$5:1/0) title "algo5" with linespoints pointtype 7 pointsize 0.5, "0-6-0.txt" using 4:($6==0?$5:1/0) title "algo6" with linespoints pointtype 7 pointsize 0.5
+#plot "0-1-0.txt" using 4:($6==0?$5:1/0) title "algo1" with linespoints pointtype 7 pointsize 0.5, "0-2-0.txt" using 4:($6==0?$5:1/0) title "algo2" with linespoints pointtype 7 pointsize 0.5, "0-3-0.txt" using 4:($6==0?$5:1/0) title "algo3" with linespoints pointtype 7 pointsize 0.5, "0-4-0.txt" using 4:($6==0?$5:1/0) title "algo4" with linespoints pointtype 7 pointsize 0.5, "0-5-0.txt" using 4:($6==0?$5:1/0) title "algo5" with linespoints pointtype 7 pointsize 0.5, "0-6-0.txt" using 4:($6==0?$5:1/0) title "algo6" with linespoints pointtype 7 pointsize 0.5, "0-7-0.txt" using 4:($6==0?$5:1/0) title "algo7" with linespoints pointtype 7 pointsize 0.5, "0-8-0.txt" using 4:($6==0?$5:1/0) title "algo8" with linespoints pointtype 7 pointsize 0.5
 
 #Meilleur resType = 1 :
 #set output "BestTime_AllAlgorithms_RandomMap-RandomChoice.pdf"
@@ -54,7 +54,7 @@ set datafile missing NaN
 
 ################## 3 ##################
 
-# Pour comparer algo3, algo4, algo5 (ses 2 versions) et algo6 selon leurs temps (moyenne | meilleur | pire) sur la config6 :
+# Pour comparer les algorithmes selon leurs temps (moyenne | meilleur | pire) sur la config6 :
 
 
 #set key outside
@@ -68,7 +68,7 @@ set datafile missing NaN
 #Moyenne resType = 0 :
 #set output "MoyTime_AllAlgorithms_Config6-RandomChoice.pdf"
 #set title "MoyTime on Config6 with RandomChoice"
-#plot "6-1-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo1", "6-2-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo2", "6-3-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo3", "6-4-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo4", "6-5-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3", "6-5-0_algo4.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4", "6-6-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo6"
+#plot "6-1-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo1", "6-2-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo2", "6-3-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo3", "6-4-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo4", "6-5-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3", "6-5-0_algo4.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4", "6-6-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo6", "6-7-0.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo7", "6-8-0.txt" using (0):($6==0?$5:1/0) with points pointtype 6 pointsize 1 title "algo8"
 
 
 #Meilleur resType = 1 :
@@ -126,12 +126,12 @@ set datafile missing NaN
 
 # Pour comparer algo5+6, 5+4 et 5+3 selon leurs temps (moyenne | meilleur | pire) sur la config9 :
 
-set key outside
-set ylabel "time"
-set border 1
-set ytics nomirror
-unset xtics
-set grid
+#set key outside
+#set ylabel "time"
+#set border 1
+#set ytics nomirror
+#unset xtics
+#set grid
 
 
 #Moyenne resType = 0 :
@@ -145,9 +145,9 @@ set grid
 #plot "9-5-0_algo5+4.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 MoyTime", "9-5-0_algo5+3.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 MoyTime", "9-5-0_algo5+6.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 MoyTime"
 
 #Pire resType = 2 :
-set output "WorstTimes_Algos5_Config9-RandomChoice.pdf"
-set title "WorstTime on Config9 with RandomChoice"
-plot "9-5-0_algo5+4.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 MoyTime", "9-5-0_algo5+3.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 MoyTime", "9-5-0_algo5+6.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 MoyTime"
+#set output "WorstTimes_Algos5_Config9-RandomChoice.pdf"
+#set title "WorstTime on Config9 with RandomChoice"
+#plot "9-5-0_algo5+4.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 MoyTime", "9-5-0_algo5+3.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 MoyTime", "9-5-0_algo5+6.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 MoyTime"
 
 #Tout sur un seul graphique :
 #plot "9-5-0_algo5+4.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 MoyTime", "9-5-0_algo5+3.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 MoyTime", "9-5-0_algo5+4.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 BestTime", "9-5-0_algo5+3.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 BestTime", "9-5-0_algo5+4.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+4 WorstTime", "9-5-0_algo5+3.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+3 WorstTime", "9-5-0_algo5+6.txt" using (0):($6==2?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 WorstTime", "9-5-0_algo5+6.txt" using (0):($6==0?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 MoyTime", "9-5-0_algo5+6.txt" using (0):($6==1?$5:1/0) with points pointtype 7 pointsize 1 title "algo5+6 BestTime"

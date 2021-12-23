@@ -21,13 +21,29 @@ public class Map implements BackgroundPainter, ClockListener {
     public static void main(String[] args) {
 
         // ICI on choisit entre version Map et version Simulator.
-        // Voir dans le README pour comprendre comment lancer une topologie.
+        // Voir dans le README|vidéo pour comprendre comment lancer une topologie.
 
-        new Map(new Topology(800,800),1, 8, 1,20, 2);
 
-        //new Simulator(0,8,10,6,0, new int[]{10,20,40,80,160,320});
-        //new Simulator(0,5,5,6,0, new int[]{5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,100,160,200,300,320,400,500,600,700,800});
-        //new Simulator(9,5,30,8,0, new int[]{100});
+        /** Version Map **/
+        //Exemple simple de Map sur algorithme 1 en configuration 0 avec 20 robots. On choisit soi-même son robot initial.
+        //new Map(new Topology(800,800),0, 3, 1,20, 2);
+
+        //Exemple de Map sur algorithme 5 en configuration 0 avec 300 robots. Choix du premier robot aléatoire.
+        //new Map(new Topology(800,800),0, 0, 5,300, 2);
+
+        //nbBlocs ne sert que pour  les configuration 7, 8 et 9.
+        //Pour la configuration 7 il faut renseigner un nbRobots au minimum avec 1 robot par bloc. Par exemple pour nbBlocs=4 il faut au minimum NbRobots = 4*4 = 16.
+        //Exemple présenté dans la vidéo pour l'algorithme 7.
+        //new Map(new Topology(800,800),8, 3, 7,300, 2);
+
+        /** Version Simulator **/
+        //Exemples de simulations sur des algorithmes et instances avec nombre de robots différents :
+        //Note : - choisir plusieurs quantités de robots ne sert à rien pour les configutation ou le nombre est fixé d'avance (configs 1,2,3,4,5,6,8,9).
+        //       - nbRep > 1 utile seulement si la topologie place aléatoirement les robots, ou si on choisit aléatoirement le premier robot.
+
+        //new Simulator(0,9,10,6,0, new int[]{10,20,40,80,160,320});
+        //new Simulator(0,5,20,6,0, new int[]{5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,100,160,200,300,320,400,500,600,700,800}); //long
+        //new Simulator(6,8,10,8,0, new int[]{100});
 
     }
 
