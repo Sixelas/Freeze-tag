@@ -11,6 +11,9 @@ import robot.Robot;
 import robot.algos.Algorithms;
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class Map implements BackgroundPainter, ClockListener {
@@ -26,7 +29,7 @@ public class Map implements BackgroundPainter, ClockListener {
 
         /** Version Map **/
         //Exemple simple de Map sur algorithme 1 en configuration 0 avec 20 robots. On choisit soi-même son robot initial.
-        //new Map(new Topology(800,800),0, 3, 1,20, 2);
+        new Map(new Topology(800,800),0, 3, 1,20, 2);
 
         //Exemple de Map sur algorithme 5 en configuration 0 avec 300 robots. Choix du premier robot aléatoire.
         //new Map(new Topology(800,800),0, 0, 5,300, 2);
@@ -207,12 +210,17 @@ public class Map implements BackgroundPainter, ClockListener {
     }
 
     //Pour ajouter un fond ? Juste du visuel sinon inutile.
+    /** Code emprunté au projet "Exploration par des fourmis" de 2019 ! **/
     @Override
     public void paintBackground(UIComponent uiComponent, Topology topology) {
-        /** //A COMPRENDRE POUR PLUS TARD
-        Graphics2D g2d = (Graphics2D) uiComponent.getComponent();
-        g2d.drawImage();
-         **/
+        /** Si pas sur Linux : commenter les ci-dessous sinon ça marche pas à cause du path de l'image **/
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+
+        Graphics2D g = (Graphics2D) uiComponent.getComponent();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image image = tk.getImage(s+File.separator+"src"+File.separator+"map"+File.separator+"images"+File.separator+"space.jpg");
+        g.drawImage(image, 0, 0, null);
     }
 
     @Override
