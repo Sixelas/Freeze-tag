@@ -7,6 +7,10 @@ import io.jbotsim.core.Point;
 import io.jbotsim.ui.icons.Icons;
 import robot.algos.Algorithms;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Robot extends Node {
 
     private boolean awake = false;
@@ -25,16 +29,21 @@ public class Robot extends Node {
     public Algorithms algo;
     public int a;
 
+    public Path currentRelativePath = Paths.get("");
+    public String s = currentRelativePath.toAbsolutePath().toString()+File.separator+"src"+File.separator+"map"+File.separator+"images"+File.separator;
+
 
     public Robot(){
-        setIcon(Icons.ROBOT);
-        setIconSize((int)(getIconSize()*1.5));
+        //setIcon(Icons.ROBOT);
+        setIcon(s+"ufo.png");
+        setIconSize((int)(getIconSize()*2));
         speed = 3;
     }
 
     public Robot(int algo){
-        setIcon(Icons.ROBOT);
-        setIconSize((int)(getIconSize()*1.5));
+        //setIcon(Icons.ROBOT);
+        setIcon(s+"ufo.png");
+        setIconSize((int)(getIconSize()*2));
         speed = 3;
         a = algo;
     }
@@ -104,8 +113,9 @@ public class Robot extends Node {
                         arrive = false;
                         if(!searchTarget() && (a!= 5)){
                             lock2 = true;
-                            setColor(new Color(Color.RED));
-                            setIconSize(15);
+                            //setColor(new Color(Color.RED));
+                            setIcon(s+"ufo-red.png");
+                            //setIconSize(15);
                         }
                     }
                 }
@@ -143,8 +153,9 @@ public class Robot extends Node {
     public void onSelection() {
 
         algo = new Algorithms(super.getTopology());
-        setIconSize(25);
-        setColor(new Color(Color.CYAN));
+        //setIconSize(25);
+        //setColor(new Color(Color.CYAN));
+        setIcon(s+"ufo-cyan.png");
         super.onSelection();
         awake = true;
         this.source = this;
@@ -157,14 +168,16 @@ public class Robot extends Node {
 
         if(message.getFlag().equals("DEBOUT")){
             awake = true;
-            setIconSize(25);
-            setColor(new Color(Color.CYAN));
+            //setIconSize(25);
+            //setColor(new Color(Color.CYAN));
+            setIcon(s+"ufo-cyan.png");
 
             if(!searchTarget()){
                 lock2 = true;
                 lock = true;
-                setColor(new Color(Color.RED));
-                setIconSize(15);
+                //setColor(new Color(Color.RED));
+                setIcon(s+"ufo-red.png");
+                //setIconSize(15);
             }
         }
     }
@@ -172,10 +185,11 @@ public class Robot extends Node {
     public boolean searchTarget() { // Cherche un robot à réveiller, retourne false si il n'y a plus de robots à réveiller.
 
         if(lock){ //Ne s'applique que si on a choisi l'algo5.
-            boolean res = algo.algo4(this); // Algorithme intermédiaire à choisir ici !
+            boolean res = algo.algo3(this); // Algorithme intermédiaire à choisir ici !
             if(res){
-                setColor(new Color(Color.GREEN));
-                setIconSize(25);
+                //setColor(new Color(Color.GREEN));
+                setIcon(s+"ufo-green.png");
+                //setIconSize(25);
                 lock = false;
             }
             return res;

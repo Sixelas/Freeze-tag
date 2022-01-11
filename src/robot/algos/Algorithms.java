@@ -31,7 +31,8 @@ public class Algorithms {
             if((! r.isAwake()) && (! r.isChoice())){
                 start.setCible(r);
                 r.setChoice(true);
-                r.setColor(new Color(Color.ORANGE));
+                //r.setColor(new Color(Color.ORANGE));
+                r.setIcon(r.s+"ufo-orange.png");
                 r.setSource(start);
                 r.setSourcePoint(new Point(start.getX(), start.getY()));
                 r.setCommunicationRange(0);
@@ -60,7 +61,8 @@ public class Algorithms {
             Robot z = robots.get(r.nextInt(robots.size()));
             start.setCible(z);
             z.setChoice(true);
-            z.setColor(new Color(Color.ORANGE));
+            //z.setColor(new Color(Color.ORANGE));
+            z.setIcon(z.s+"ufo-orange.png");
             z.setCommunicationRange(0);
             z.setSource(start);
             z.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -92,7 +94,8 @@ public class Algorithms {
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -120,7 +123,8 @@ public class Algorithms {
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -162,20 +166,23 @@ public class Algorithms {
 
         if(target == null){ //Si on a pas réussi à trouver de cible, il n'y a plus de robots à réveiller. On devient RED.
             start.lock = true;
-            start.setColor(new Color(Color.RED));
-            start.setIconSize(15);
+            //start.setColor(new Color(Color.RED));
+            start.setIcon(start.s+"ufo-red.png");
+            //start.setIconSize(15);
             return false;
         }
 
         if(target.isChoice()){ //Si notre cible avait déjà un robot source, on lui vole et il doit s'en trouver une autre.
-            target.getSource().setColor(new Color(Color.RED));
-            target.getSource().setIconSize(15);
+            //target.getSource().setColor(new Color(Color.RED));
+            target.getSource().setIcon(target.s+"ufo-red.png");
+            //target.getSource().setIconSize(15);
             target.getSource().lock = true;
         }
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -205,7 +212,8 @@ public class Algorithms {
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -283,7 +291,8 @@ public class Algorithms {
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));
@@ -367,7 +376,8 @@ public class Algorithms {
 
         start.setCible(target);
         target.setChoice(true);
-        target.setColor(new Color(Color.ORANGE));
+        //target.setColor(new Color(Color.ORANGE));
+        target.setIcon(target.s+"ufo-orange.png");
         target.setCommunicationRange(0);
         target.setSource(start);
         target.setSourcePoint(new Point(start.getX(), start.getY()));

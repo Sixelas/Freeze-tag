@@ -214,6 +214,7 @@ public class Map implements BackgroundPainter, ClockListener {
     @Override
     public void paintBackground(UIComponent uiComponent, Topology topology) {
         /** Si pas sur Linux : commenter les ci-dessous sinon ça marche pas à cause du path de l'image **/
+
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
 
